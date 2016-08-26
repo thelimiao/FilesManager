@@ -3,7 +3,7 @@
 ?>
 
 
-<p>Hello World!</p>
+<p>Hello Admin!</p>
 
 
 <?php
