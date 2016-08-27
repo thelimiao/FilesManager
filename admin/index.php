@@ -43,7 +43,7 @@
                       <td>' . htmlspecialchars($data->username) . '</td>
                       <td>' . $result->name . '</td>
                       <td>
-                        <a href="user.php?id=' . $data->id . '" class="btn btn-warning input-margin">Editer le compte</a>
+                        <a href="update.php?id=' . $data->id . '" class="btn btn-warning input-margin">Editer le compte</a>
                       </td>
                     </tr>';
             }

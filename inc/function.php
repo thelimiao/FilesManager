@@ -43,7 +43,7 @@ function is_admin(){
     $rank = $req->fetch();
 
     if(isset($rank) && $rank->name != "admin"){
-      $_SESSION['flash']['danger'] = "Vous n'avez pas les permission pour accéder à cette page";
+      $_SESSION['flash']['danger'] = "Vous n'avez pas les permissions pour accéder à cette page";
       header('location: '.WEBROOT.'index.php');
       exit();
     }

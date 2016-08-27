@@ -2,6 +2,15 @@
   $page = "delete";
   require_once 'inc/header.php';
   is_admin();
+
+  if(isset($_GET['delete'])){
+    checkCsrf();
+    $id = $pdo->quote($_GET['delete']);
+    $pdo->query("DELETE FROM users WHERE id = $id");
+    $_SESSION['flash']['danger'] = 'Le compte a bien était supprimé';
+    header('Location: delete.php');
+    exit();
+  }
 ?>
 
 
@@ -43,7 +52,7 @@
                       <td>' . htmlspecialchars($data->username) . '</td>
                       <td>' . $result->name . '</td>
                       <td>
-                        <a href="user.php?id=' . $data->id . '" class="btn btn-danger input-margin">Supprimer le compte</a>
+                        <a href="delete.php?id=' . $data->id . '" class="btn btn-danger input-margin" onclick="return confirm(\'Êtes vous sur ?\');">Supprimer le compte</a>
                       </td>
                     </tr>';
             }
