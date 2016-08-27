@@ -32,14 +32,17 @@ function is_authenticated(){
 
 // Fonction qui vérifie si la personne authentifié est dans le groupe admin
 function is_admin(){
+    if(!isset($pdo)){
+        global $pdo;
+    }
     is_authenticated();
 
     $rank_id = $_SESSION['auth']->id_rank;
     $req = $pdo->prepare('SELECT name FROM ranks WHERE id = ?');
     $req->execute([$rank_id]);
-    $rank_name = $req->fetch();
+    $rank = $req->fetch();
 
-    if(!$rank_name->name == "admin"){
+    if(isset($rank) && $rank->name != "admin"){
       $_SESSION['flash']['danger'] = "Vous n'avez pas les permission pour accéder à cette page";
       header('location: '.WEBROOT.'index.php');
       exit();

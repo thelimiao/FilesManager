@@ -1,6 +1,7 @@
 <?php
   $page = "register";
   require_once 'inc/header.php';
+  is_admin();
 
   if(!empty($_POST)){
     $errors = array();
@@ -33,9 +34,17 @@
 
 ?>
 
-<div class="container">
+    <div class="container">
 
       <div class="header clearfix">
+        <nav>
+
+          <ul class="nav nav-pills pull-right">
+            <li><a href="../index.php">Retourner à l'accueil</a></li>
+            <li><a href="../logout.php">Se déconnecter</a></li>
+          </ul>
+
+        </nav>
         <h3 class="text-muted">Créer un nouvelle utilisateur :</h3>
       </div>
 

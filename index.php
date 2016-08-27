@@ -20,7 +20,7 @@ $page = "index";
         <ul class="nav nav-pills pull-right">
           <?php
           if(isset($admin) && $admin = True){
-            echo "<li><a href=\"/admin\">Panel admin</a></li>";
+            echo "<li><a href=\"".WEBROOT."admin\">Panel admin</a></li>";
           }
           ?>
           <li><a href="logout.php">Se déconnecter</a></li>
