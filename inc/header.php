@@ -1,6 +1,7 @@
 <?php
   require_once 'inc/database.php';
   require_once 'inc/function.php';
+  is_session();
 ?>
 
 <!DOCTYPE html>
@@ -14,10 +15,22 @@
     <meta name="author" content="Fukotaku">
     <link rel="shortcut icon" href="favicon.png" />
 
-    <title>Files Lister</title>
+    <?php
+      echo "<title>Files Lister - ".$page."</title>";
+    ?>
+
 
     <!-- Bootstrap core CSS -->
     <link href="asset/css/bootstrap.css" rel="stylesheet">
 
   </head>
   <body>
+
+    <?php if(isset($_SESSION['flash'])): ?>
+        <?php foreach($_SESSION['flash'] as $type => $message): ?>
+            <div class="alert text-center alert-<?= $type; ?>">
+                <?= $message; ?>
+            </div>
+        <?php endforeach; ?>
+        <?php unset($_SESSION['flash']); ?>
+    <?php endif; ?>

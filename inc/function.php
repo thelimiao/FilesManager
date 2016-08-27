@@ -14,12 +14,15 @@ function debug($variable){
     echo '<pre>' . print_r($variable, true) . '</pre>';
 }
 
+// Démarre la session si il y en as pas.
+function is_session(){
+  if(session_status() == PHP_SESSION_NONE){
+      session_start();
+  }
+}
+
 // Fonction qui vérifie si il y a une authentification en cours
 function is_authenticated(){
-    if(session_status() == PHP_SESSION_NONE){
-        session_start();
-    }
-
     if(!isset($_SESSION['auth'])){
         $_SESSION['flash']['danger'] = 'Vous devez vous connectez';
         header('location: '.WEBROOT.'login.php');

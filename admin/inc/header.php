@@ -1,6 +1,8 @@
 <?php
   require_once '../inc/database.php';
   require_once '../inc/function.php';
+  is_session();
+  is_admin();
 ?>
 
 <!DOCTYPE html>
@@ -32,11 +34,20 @@
 
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="index.php"><span class="glyphicon glyphicon-info-sign"></span> &nbsp;Liste des utilisateurs</a></li>
-          <li><a href="create.php"><span class="glyphicon glyphicon-plus-sign"></span> &nbsp;Créer un utilisateur</a></li>
-          <li><a href="delete.php"><span class="glyphicon glyphicon-minus-sign"></span> &nbsp;Supprimer des utilisateurs</a></li>
+          <li <?php if(isset($page) && $page == "index"){echo "class=\"active\"";} ?>><a href="index.php"><span class="glyphicon glyphicon-info-sign"></span> &nbsp;Liste des utilisateurs</a></li>
+          <li <?php if(isset($page) && $page == "register"){echo "class=\"active\"";} ?>><a href="register.php"><span class="glyphicon glyphicon-plus-sign"></span> &nbsp;Créer un utilisateur</a></li>
+          <li <?php if(isset($page) && $page == "delete"){echo "class=\"active\"";} ?>><a href="delete.php"><span class="glyphicon glyphicon-minus-sign"></span> &nbsp;Supprimer des utilisateurs</a></li>
         </ul>
       </div>
 
     </div>
   </nav>
+
+  <?php if(isset($_SESSION['flash'])): ?>
+      <?php foreach($_SESSION['flash'] as $type => $message): ?>
+          <div class="alert text-center alert-<?= $type; ?>">
+              <?= $message; ?>
+          </div>
+      <?php endforeach; ?>
+      <?php unset($_SESSION['flash']); ?>
+  <?php endif; ?>
