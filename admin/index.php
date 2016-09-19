@@ -25,11 +25,12 @@
         <thead>
           <tr>
             <th>Nom d'utilisateur</th>
-            <th>groupe</th>
-            <th>Action</th>
+            <th>Groupe</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
+          
           <?php
 
             $req = $pdo->query('SELECT * FROM users');
@@ -44,6 +45,9 @@
                       <td>' . $result->name . '</td>
                       <td>
                         <a href="update.php?id=' . $data->id . '" class="btn btn-warning input-margin">Editer le compte</a>
+                        <a href="permission.php?id=' . $data->id . '" class="btn btn-info input-margin">Gérer les accès</a>
+                        <a href="access.php?id=' . $data->id . '" class="btn btn-default input-margin">Gérer les répertoires</a>
+                        <a href="index.php?delete=' . $data->id . '" class="btn btn-danger input-margin">Supprimer l\'utilisateur</a>
                       </td>
                     </tr>';
             }

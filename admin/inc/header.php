@@ -38,9 +38,10 @@
 
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li <?php if(isset($page) && $page == "index"){echo "class=\"active\"";} ?>><a href="index.php"><span class="glyphicon glyphicon-info-sign"></span> &nbsp;Liste des utilisateurs</a></li>
+          <li <?php if(isset($page) && $page == "index"){echo "class=\"active\"";} ?>><a href="index.php"><span class="glyphicon glyphicon-info-sign"></span> &nbsp;Les utilisateurs</a></li>
           <li <?php if(isset($page) && $page == "register"){echo "class=\"active\"";} ?>><a href="register.php"><span class="glyphicon glyphicon-plus-sign"></span> &nbsp;Créer un utilisateur</a></li>
           <li <?php if(isset($page) && $page == "delete"){echo "class=\"active\"";} ?>><a href="delete.php"><span class="glyphicon glyphicon-minus-sign"></span> &nbsp;Supprimer des utilisateurs</a></li>
+          <li <?php if(isset($page) && $page == "delete"){echo "class=\"active\"";} ?>><a href="access.php"><span class="glyphicon glyphicon-folder-open"></span> &nbsp;Les access</a></li>
         </ul>
       </div>
 
