@@ -1,7 +1,7 @@
 <?php
 
 // Initialisation du nom du dossier racine de l'application
-$app = "fileslister";
+$app = "filesmanager";
 $url = explode($app, $_SERVER['REQUEST_URI']);
 if(count($url) == 1){
     define('WEBROOT', '/');
