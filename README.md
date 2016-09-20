@@ -1,6 +1,6 @@
-# Files Lister
-FilesLister est une application web développé en php qui permet de télécharger des fichiers présents sur le serveur en http.
-L'application dispose de fonctionnalités supplémentaires, comme le visionnage de vidéo en streaming et la compression de dossier (téléchargeable par la suite).
+# Files Manager
+FilesManager est une application web développé en php qui permet de gérer vos fichiers présents sur le serveur en http (Upload/Download).
+L'application dispose de divers fonctionnalités, comme le visionnage de vidéo en format mp4, le partage de dossiers entre utilisateur.
 
 ## Pré-requis :
 - Apache2 ou nginx
