@@ -16,7 +16,7 @@
     <meta name="author" content="Fukotaku">
     <link rel="shortcut icon" href="../favicon.png" />
 
-    <title>Admin Files Lister</title>
+    <title>Admin Files Manager</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../asset/css/bootstrap.css" rel="stylesheet">
@@ -33,15 +33,13 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-        <a class="navbar-brand"><span class="glyphicon glyphicon-blackboard"></span> &nbsp;Files Lister : Panel administrateur</a>
+        <a class="navbar-brand"><span class="glyphicon glyphicon-blackboard"></span> &nbsp;Files Manager : Panel administrateur</a>
       </div>
 
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
           <li <?php if(isset($page) && $page == "index"){echo "class=\"active\"";} ?>><a href="index.php"><span class="glyphicon glyphicon-info-sign"></span> &nbsp;Les utilisateurs</a></li>
-          <li <?php if(isset($page) && $page == "register"){echo "class=\"active\"";} ?>><a href="register.php"><span class="glyphicon glyphicon-plus-sign"></span> &nbsp;Créer un utilisateur</a></li>
-          <li <?php if(isset($page) && $page == "delete"){echo "class=\"active\"";} ?>><a href="delete.php"><span class="glyphicon glyphicon-minus-sign"></span> &nbsp;Supprimer des utilisateurs</a></li>
-          <li <?php if(isset($page) && $page == "delete"){echo "class=\"active\"";} ?>><a href="access.php"><span class="glyphicon glyphicon-folder-open"></span> &nbsp;Les access</a></li>
+          <li <?php if(isset($page) && $page == "access"){echo "class=\"active\"";} ?>><a href="access.php"><span class="glyphicon glyphicon-folder-open"></span> &nbsp;Les access</a></li>
         </ul>
       </div>
 

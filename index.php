@@ -2,14 +2,7 @@
 $page = "index";
   require_once 'inc/header.php';
   is_authenticated();
-
-  $rank = $_SESSION['auth']->id_rank;
-  $req = $pdo->query("SELECT name FROM ranks WHERE id = $rank");
-  $result = $req->fetch();
-  if(!empty($result) && $result->name === "admin"){
-    $admin = True;
-  }
-
+  $rank = check_rank($_SESSION['auth']->id_rank);
 ?>
 
   <div class="container">
@@ -19,7 +12,8 @@ $page = "index";
 
         <ul class="nav nav-pills pull-right">
           <?php
-          if(isset($admin) && $admin = True){
+
+          if($rank === "admin"){
             echo "<li><a href=\"".WEBROOT."admin\">Panel admin</a></li>";
           }
           ?>

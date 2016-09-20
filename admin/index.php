@@ -2,6 +2,17 @@
   $page = "index";
   require_once 'inc/header.php';
   is_admin();
+
+  if(isset($_GET['delete'])){
+    if(checkCsrf() === true){
+      $id = $pdo->quote($_GET['delete']);
+      $pdo->query("DELETE FROM users WHERE id = $id");
+      $_SESSION['flash']['danger'] = 'Le compte a bien était supprimé';
+      header('Location: index.php');
+      exit();
+    }
+  }
+
 ?>
 
 
@@ -21,6 +32,9 @@
 
     <div class="jumbotron">
 
+      <a href="register.php" class="btn btn-success input-margin">Créer un utilisateur</a>
+      <br/><br/>
+
       <table class="table table-striped">
         <thead>
           <tr>
@@ -30,7 +44,7 @@
           </tr>
         </thead>
         <tbody>
-          
+
           <?php
 
             $req = $pdo->query('SELECT * FROM users');
@@ -44,10 +58,10 @@
                       <td>' . htmlspecialchars($data->username) . '</td>
                       <td>' . $result->name . '</td>
                       <td>
-                        <a href="update.php?id=' . $data->id . '" class="btn btn-warning input-margin">Editer le compte</a>
-                        <a href="permission.php?id=' . $data->id . '" class="btn btn-info input-margin">Gérer les accès</a>
-                        <a href="access.php?id=' . $data->id . '" class="btn btn-default input-margin">Gérer les répertoires</a>
-                        <a href="index.php?delete=' . $data->id . '" class="btn btn-danger input-margin">Supprimer l\'utilisateur</a>
+                        <a href="update.php?id='.$data->id.'" class="btn btn-warning input-margin">Editer le compte</a>
+                        <a href="permission.php?id='.$data->id.'" class="btn btn-info input-margin">Gérer les accès</a>
+                        <a href="access.php?id='.$data->id.'" class="btn btn-default input-margin">Gérer les répertoires</a>
+                        <a href="index.php?delete='.$data->id.'&'.csrf().'" class="btn btn-danger input-margin" onclick="return confirm(\'Êtes vous sur ?\');">Supprimer l\'utilisateur</a>
                       </td>
                     </tr>';
             }
