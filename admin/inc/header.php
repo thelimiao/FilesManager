@@ -12,7 +12,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <meta name="description" content="Files Lister application">
+    <meta name="description" content="Files Manager application">
     <meta name="author" content="Fukotaku">
     <link rel="shortcut icon" href="../favicon.png" />
 

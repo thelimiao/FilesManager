@@ -26,7 +26,7 @@
     <br/><br/>
     <div class="jumbotron">
 
-      <h1 class="text-center">Files Lister</h1>
+      <h1 class="text-center">Files Manager</h1>
       <h2>Identifiez-vous :</h2>
 
       <?php if(!empty($errors)): ?>

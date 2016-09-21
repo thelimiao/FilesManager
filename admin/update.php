@@ -3,6 +3,21 @@
   require_once 'inc/header.php';
   is_admin();
 
+  // On récupère les informations de l'utilisateur selectionné pour pré-remplir le formulaire
+  if(isset($_GET['id']) && preg_match("/^[0-9]+$/i",$_GET['id'])){
+      $id = $_GET['id'];
+      $req = $pdo->query("SELECT * FROM users WHERE id = $id");
+
+      if(!empty($result_user = $req->fetch())){
+          $rank_user = $result_user->id_rank;
+      }else{
+          $_SESSION['flash']['danger'] = "L'utilisateur selectionné n'existe pas";
+          header('location: index.php');
+          exit();
+      }
+  }
+
+  // On enregistre les informations du formulaire si aucune erreur n'est detecté
   if(!empty($_POST)){
     $errors = array();
 
@@ -12,23 +27,35 @@
         $req = $pdo->prepare('SELECT id FROM users WHERE username = ?');
         $req->execute([$_POST['username']]);
         $user = $req->fetch();
-        if($user){
+        if(!empty($user)){
+          if($user->id != $id){
             $errors['username'] = "Ce nom d'utilisateur est déjà  pris";
+          }
         }
     }
 
-    if(empty($_POST['password']) || $_POST['password'] != $_POST['password2']){
-        $errors['password'] = "Vous devez rentrer un mot de passe identique dans les 2 champs";
+    if($_POST['password'] || $_POST['password2']){
+      if((empty($_POST['password']) || empty($_POST['password2'])) || ($_POST['password'] != $_POST['password2'])){
+          $errors['password'] = "Vous devez rentrer un mot de passe identique dans les 2 champs";
+      }else{
+        $pass = true;
+      }
     }
 
     if(empty($errors)){
-        $req = $pdo->prepare("INSERT INTO users SET username = ?, password = ?, id_rank = ?");
-        $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
-        $req->execute([$_POST['username'], $password, 2]);
-        $user_id = $pdo->lastInsertId();
+      if(checkCsrf() === true){
+        if($pass === true){
+          $req = $pdo->prepare("UPDATE users SET username = ?, password = ?, id_rank = ? WHERE id = ?");
+          $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+          $req->execute([$_POST['username'], $password, $_POST['rank'], $id]);
+        }else{
+          $req = $pdo->prepare("UPDATE users SET username = ?, id_rank = ? WHERE id = ?");
+          $req->execute([$_POST['username'], $_POST['rank'], $id]);
+        }
         $_SESSION['flash']['success'] = 'Le compte a bien était créer';
         header('location: index.php');
         exit();
+      }
     }
   }
 
@@ -45,7 +72,7 @@
           </ul>
 
         </nav>
-        <h3 class="text-muted">Créer un nouvelle utilisateur :</h3>
+        <h3 class="text-muted">Modification de l'utilisateur : <?php echo $result_user->username; ?></h3>
       </div>
 
       <div class="jumbotron">
@@ -67,15 +94,30 @@
           <div class="form-group">
 
             <label class="control-label" for="username">Nom d'utilisateur</label>
-            <input class="form-control" id="username" name="username" type="text">
+            <input class="form-control" id="username" name="username" value="<?php echo $result_user->username; ?>" type="text">
           <br/>
-            <label class="control-label" for="password">Mot de passe</label>
+            <label class="control-label" for="password">Nouveau mot de passe</label>
             <input class="form-control" id="password" name="password" type="password">
           <br/>
-            <label class="control-label" for="password2">Confirmation du mot de passe</label>
+            <label class="control-label" for="password2">Confirmation le nouveau mot de passe</label>
             <input class="form-control" id="password2" name="password2" type="password">
           <br/>
-            <input type="submit" class="btn btn-success" value="Créer l'utilisateur"/>
+            <label class="control-label" for="group">Groupe</label>
+            <select class="form-control" id="group" name="rank">
+              <?php
+              $ranks = $pdo->query('SELECT * FROM ranks');
+              while($ranks_list = $ranks->fetch()){
+                if($ranks_list->id == $rank_user){
+                  echo '<option value="'.$ranks_list->id.'" selected>'.$ranks_list->name.'</option>';
+                }else{
+                  echo '<option value="'.$ranks_list->id.'">'.$ranks_list->name.'</option>';
+                }
+              }
+              ?>
+            </select>
+            <?php echo csrfInput(); ?>
+          <br/>
+            <input type="submit" class="btn btn-success" value="Enregistrer"/>
 
           </div>
         </form>

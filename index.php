@@ -21,7 +21,7 @@ $page = "index";
         </ul>
 
       </nav>
-      <h3 class="text-muted">Files Lister</h3>
+      <h3 class="text-muted">Files Manager</h3>
     </div>
 
     <div class="jumbotron">

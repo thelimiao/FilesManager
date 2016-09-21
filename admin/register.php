@@ -13,7 +13,7 @@
         $req->execute([$_POST['username']]);
         $user = $req->fetch();
         if($user){
-            $errors['username'] = "Ce nom d'utilisateur est déjà  pris";
+            $errors['username'] = "Ce nom d'utilisateur est déjà pris";
         }
     }
 
@@ -22,13 +22,14 @@
     }
 
     if(empty($errors)){
-        $req = $pdo->prepare("INSERT INTO users SET username = ?, password = ?, id_rank = ?");
-        $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
-        $req->execute([$_POST['username'], $password, 2]);
-        $user_id = $pdo->lastInsertId();
-        $_SESSION['flash']['success'] = 'Le compte a bien était créer';
-        header('location: index.php');
-        exit();
+        if(checkCsrf() === true){
+          $req = $pdo->prepare("INSERT INTO users SET username = ?, password = ?, id_rank = ?");
+          $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
+          $req->execute([$_POST['username'], $password, $_POST['rank']]);
+          $_SESSION['flash']['success'] = 'Le compte a bien était créer';
+          header('location: index.php');
+          exit();
+        }
     }
   }
 
@@ -74,6 +75,22 @@
           <br/>
             <label class="control-label" for="password2">Confirmation du mot de passe</label>
             <input class="form-control" id="password2" name="password2" type="password">
+          <br/>
+            <label class="control-label" for="group">Groupe</label>
+            <select class="form-control" id="group" name="rank">
+              <?php
+              $req = $pdo->query('SELECT * FROM ranks');
+              while($ranks_list = $req->fetch()){
+                if($ranks_list->name == "utilisateur"){
+                  echo '<option value="'.$ranks_list->id.'" selected>'.$ranks_list->name.'</option>';
+                }else{
+                  echo '<option value="'.$ranks_list->id.'">'.$ranks_list->name.'</option>';
+                }
+
+              }
+              ?>
+            </select>
+            <?php echo csrfInput(); ?>
           <br/>
             <input type="submit" class="btn btn-success" value="Créer l'utilisateur"/>
 

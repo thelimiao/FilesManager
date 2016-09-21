@@ -59,8 +59,7 @@
                       <td>' . $result->name . '</td>
                       <td>
                         <a href="update.php?id='.$data->id.'" class="btn btn-warning input-margin">Editer le compte</a>
-                        <a href="permission.php?id='.$data->id.'" class="btn btn-info input-margin">Gérer les accès</a>
-                        <a href="access.php?id='.$data->id.'" class="btn btn-default input-margin">Gérer les répertoires</a>
+                        <a href="access.php?id='.$data->id.'" class="btn btn-info input-margin">Gérer les répertoires</a>
                         <a href="index.php?delete='.$data->id.'&'.csrf().'" class="btn btn-danger input-margin" onclick="return confirm(\'Êtes vous sur ?\');">Supprimer l\'utilisateur</a>
                       </td>
                     </tr>';
