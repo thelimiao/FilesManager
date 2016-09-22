@@ -3,16 +3,6 @@
   require_once 'inc/header.php';
   is_admin();
 
-  if(isset($_GET['delete'])){
-    if(checkCsrf() === true){
-      $id = $pdo->quote($_GET['delete']);
-      $pdo->query("DELETE FROM users WHERE id = $id");
-      $_SESSION['flash']['danger'] = 'Le compte a bien était supprimé';
-      header('Location: index.php');
-      exit();
-    }
-  }
-
 ?>
 
 
@@ -27,41 +17,38 @@
         </ul>
 
       </nav>
-      <h3 class="text-muted">Liste des utilisateurs :</h3>
+      <h3 class="text-muted">Les dernières actions :</h3>
     </div>
 
     <div class="jumbotron">
 
-      <a href="register.php" class="btn btn-success input-margin">Créer un utilisateur</a>
-      <br/><br/>
-
       <table class="table table-striped">
         <thead>
           <tr>
-            <th>Nom d'utilisateur</th>
-            <th>Groupe</th>
-            <th>Actions</th>
+            <th>Message</th>
+            <th>Utilisateur</th>
+            <th>Ip</th>
+            <th>Date et heure</th>
           </tr>
         </thead>
         <tbody>
 
           <?php
 
-            $req = $pdo->query('SELECT * FROM users');
+            $req = $pdo->query('SELECT * FROM logs');
+            if(!empty($req)){
+              while($data = $req->fetch()){
 
-            while($data = $req->fetch()){
-              $rank = $data->id_rank;
-              $req2 = $pdo->query("SELECT * FROM ranks WHERE id = $rank");
-              $result = $req2->fetch();
-
+                echo '<tr>
+                        <td>'.$data->message.'</td>
+                        <td>'.$data->username.'</td>
+                        <td>'.$data->ip.'</td>
+                        <td>'.$data->date.'</td>
+                      </tr>';
+              }
+            }else{
               echo '<tr>
-                      <td>' . htmlspecialchars($data->username) . '</td>
-                      <td>' . $result->name . '</td>
-                      <td>
-                        <a href="update.php?id='.$data->id.'" class="btn btn-warning input-margin">Editer le compte</a>
-                        <a href="access.php?id='.$data->id.'" class="btn btn-info input-margin">Gérer les répertoires</a>
-                        <a href="index.php?delete='.$data->id.'&'.csrf().'" class="btn btn-danger input-margin" onclick="return confirm(\'Êtes vous sur ?\');">Supprimer l\'utilisateur</a>
-                      </td>
+                      <td>Aucune donnée pour le moment</td>
                     </tr>';
             }
 

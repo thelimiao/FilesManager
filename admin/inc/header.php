@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html lang="fr">
   <head>
-    <meta charset="utf-8">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -38,8 +38,9 @@
 
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li <?php if(isset($page) && $page == "index"){echo "class=\"active\"";} ?>><a href="index.php"><span class="glyphicon glyphicon-info-sign"></span> &nbsp;Les utilisateurs</a></li>
-          <li <?php if(isset($page) && $page == "access"){echo "class=\"active\"";} ?>><a href="access.php"><span class="glyphicon glyphicon-folder-open"></span> &nbsp;Les access</a></li>
+          <li <?php if(isset($page) && $page == "index"){echo "class=\"active\"";} ?>><a href="index.php"> <span class="glyphicon glyphicon-list-alt"></span> &nbsp;Les logs</a></li>
+          <li <?php if(isset($page) && $page == "users"){echo "class=\"active\"";} ?>><a href="users.php"> <span class="glyphicon glyphicon-user"></span> &nbsp;Les utilisateurs</a></li>
+          <li <?php if(isset($page) && $page == "directory"){echo "class=\"active\"";} ?>><a href="directory.php"> <span class="glyphicon glyphicon-folder-open"></span> &nbsp;Les répertoires</a></li>
         </ul>
       </div>
 
