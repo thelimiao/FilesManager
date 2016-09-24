@@ -5,7 +5,7 @@ S'il vous plaît prennez le temps d'examiner ce document dans le but de rendre l
 
 Les issues sont faits pour le signalement de bugs et demande de nouvelles fonctionnalités.
 
-S'il vous plaît ne pas utiliser les issues pour les demandes de soutien en cas de problème d'installation, les explications sur l'installation sont citées dans le **README.md.**
+S'il vous plaît ne pas utiliser les issues pour les demandes de soutien en cas de problème d'installation, les explications sur l'installation sont citées dans le [README.md](https://github.com/Horyzone/FilesManager/blob/master/README.md).
 
 
 
@@ -28,8 +28,8 @@ Les issues peuvent êtres créer avec des étiquettes qui sont faits pour défin
 
 * `Optimisation` - Les propositions pour l'optimisation du code source.
 
-* `Question` - Les questions sur l'application ou vous n'avez pas la réponse sur le **README.md.**
+* `Question` - Les questions sur l'application ou vous n'avez pas la réponse sur le [README.md](https://github.com/Horyzone/FilesManager/blob/master/README.md).
 
 
 ## Les issues bugs
-Pour toutes envoies d'issue sur des bugs, merci de bien expliquer votre problème en citant les **étapes que vous avez effectuées**, la **configuration de votre environnement**, d'accompagner d'un ou plusieurs **screenshots** si besoin et d'avoir vérifié la documentation sur le **README.me** avant de poster.
+Pour toutes envoies d'issue sur des bugs, merci de bien expliquer votre problème en citant les **étapes que vous avez effectuées**, la **configuration de votre environnement**, d'accompagner d'un ou plusieurs **screenshots** si besoin et d'avoir vérifié la documentation sur le [README.md](https://github.com/Horyzone/FilesManager/blob/master/README.md) avant de poster.
