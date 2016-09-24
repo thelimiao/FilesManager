@@ -1,17 +1,15 @@
 # Contribuer pour FilesManager
-
 Vous voulez contibuer votre savoir et votre aide au projet ? **Voici comment vous pouvez nous aider**
 
 S'il vous plaît prennez le temps d'examiner ce document dans le but de rendre le processus de contribution facile et efficace pour tout le monde.
 
-Les issues sont faits pour le signalement de bugs et/ou demande de nouvelles fonctionnalités avec ou sans **pull request.**
+Les issues sont faits pour le signalement de bugs et demande de nouvelles fonctionnalités.
 
 S'il vous plaît ne pas utiliser les issues pour les demandes de soutien en cas de problème d'installation, les explications sur l'installation sont citées dans le **README.md.**
 
 
 
 ## L'utilisation des issues
-
 * S'il vous plaît, ne pas utiliser les issues pour les demandes de soutien personnel.
 
 * S'il vous plaît, ne pas dérailler ou troller les issues. Gardez la discussion sur le sujet et de respecter les opinions des autres.
@@ -20,7 +18,6 @@ S'il vous plaît ne pas utiliser les issues pour les demandes de soutien en cas 
 
 
 ## Les labels des issues
-
 Les issues peuvent êtres créer avec des étiquettes qui sont faits pour définir le type d'issue que vous postez:
 
 * `Bug` - Les erreurs majeures qui empêche l'application de fonctionner correctement.
@@ -35,5 +32,4 @@ Les issues peuvent êtres créer avec des étiquettes qui sont faits pour défin
 
 
 ## Les issues bugs
-
-Pour toutes envoies d'issue sur des bugs, merci de bien expliquer votre problème en citant les **étapes que vous avez effectuées**, la **configuration de votre environnement** et accompagner d'un ou plusieurs **screenshots** si besoin.
+Pour toutes envoies d'issue sur des bugs, merci de bien expliquer votre problème en citant les **étapes que vous avez effectuées**, la **configuration de votre environnement**, d'accompagner d'un ou plusieurs **screenshots** si besoin et d'avoir vérifié la documentation sur le **README.me** avant de poster.
