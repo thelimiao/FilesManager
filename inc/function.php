@@ -108,4 +108,18 @@ function get_ip(){
    return $ip;
 }
 
+// Fonction qui permet de créer un répertoire
+function new_directory($name){
+  if(!file_exists('directory/'.$name)){
+      mkdir('directory/'.$name, 0775, true);
+  }
+}
+
+// Fonction qui permet de supprimer un répertoire
+function remove_directory($name){
+  if(file_exists('directory/'.$name) && is_dir('directory/'.$name)){
+      rmdir('directory/'.$name);
+  }
+}
+
 ?>

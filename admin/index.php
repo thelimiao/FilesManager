@@ -38,12 +38,11 @@
             $req = $pdo->query('SELECT * FROM logs');
             if(!empty($req)){
               while($data = $req->fetch()){
-
                 echo '<tr>
                         <td>'.$data->message.'</td>
                         <td>'.$data->username.'</td>
                         <td>'.$data->ip.'</td>
-                        <td>'.$data->date.'</td>
+                        <td>Le '.date("d/m/Y à H:i", strtotime($data->date)).'</td>
                       </tr>';
               }
             }else{

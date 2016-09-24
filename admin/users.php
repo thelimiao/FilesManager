@@ -8,7 +8,7 @@
       $id = $pdo->quote($_GET['delete']);
       $pdo->query("DELETE FROM users WHERE id = $id");
       $_SESSION['flash']['danger'] = 'Le compte a bien était supprimé';
-      header('Location: index.php');
+      header('Location: users.php');
       exit();
     }
   }
