@@ -7,7 +7,16 @@
     if(checkCsrf() === true){
       $id = $pdo->quote($_GET['delete']);
       $pdo->query("DELETE FROM users WHERE id = $id");
-      $_SESSION['flash']['danger'] = 'Le compte a bien était supprimé';
+
+      $req = $pdo->query("SELECT id FROM directory WHERE id_user = $id");
+      if(!empty($recup = $req->fetch())){
+        $id = $recup->id;
+        clear_directory($id);
+        remove_directory($id);
+        $pdo->query("DELETE FROM directory WHERE id = $id");
+      }
+
+      $_SESSION['flash']['success'] = 'Le compte a bien était supprimé';
       header('Location: users.php');
       exit();
     }
@@ -48,7 +57,6 @@
           <?php
 
             $req = $pdo->query('SELECT * FROM users');
-
             while($data = $req->fetch()){
               $rank = $data->id_rank;
               $req2 = $pdo->query("SELECT * FROM ranks WHERE id = $rank");
@@ -60,7 +68,7 @@
                       <td>
                         <a href="update.php?id='.$data->id.'" class="btn btn-warning input-margin">Editer le compte</a>
                         <a href="access.php?id='.$data->id.'" class="btn btn-info input-margin">Gérer les répertoires</a>
-                        <a href="index.php?delete='.$data->id.'&'.csrf().'" class="btn btn-danger input-margin" onclick="return confirm(\'Êtes vous sur ?\');">Supprimer l\'utilisateur</a>
+                        <a href="users.php?delete='.$data->id.'&'.csrf().'" class="btn btn-danger input-margin" onclick="return confirm(\'Êtes vous sur ?\');">Supprimer l\'utilisateur</a>
                       </td>
                     </tr>';
             }

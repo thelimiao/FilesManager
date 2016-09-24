@@ -2,9 +2,10 @@
 // Active l'affichage des erreurs php
 ini_set('display_errors', 1);
 
-// Initialisation du nom du dossier racine de l'application
+// Initialisation du nom du dossier racine de l'application pour les liens
 $app = "filesmanager";
 $url = explode($app, $_SERVER['REQUEST_URI']);
+
 if(count($url) == 1){
     define('WEBROOT', '/');
 }else{
@@ -86,7 +87,6 @@ function csrfInput(){
 function checkCsrf(){
     if( (isset($_POST['csrf']) && $_POST['csrf'] == $_SESSION['csrf']) ||
         (isset($_GET['csrf']) && $_GET['csrf'] == $_SESSION['csrf']) ){
-
       return true;
     }else{
       $_SESSION['flash']['danger'] = "Action impossible, votre clef de session est incorrect ou inexistent.";
@@ -111,14 +111,44 @@ function get_ip(){
 // Fonction qui permet de créer un répertoire
 function new_directory($name){
   if(!file_exists('directory/'.$name)){
-      mkdir('directory/'.$name, 0775, true);
+    if(!mkdir('directory/'.$name, 0775, true)){
+      $_SESSION['flash']['danger'] = "Impossible de créer le dossier, vérifier les permissions du serveur web sur l'application";
+      header('Location:'.WEBROOT.'admin/directory.php');
+      die();
+    }
+  }
+}
+
+// Fonction qui permet de supprimer le contenu d'un répertoire
+function clear_directory($name){
+  $id = trim($name, "'");
+  if(file_exists('directory/'.$id) && is_dir('directory/'.$id)){
+    if($handle = opendir('directory/'.$id)){
+      while(false !== ($entry = readdir($handle))){
+        if($entry != "." && $entry != ".."){
+          if(!isset($entry)){
+            unlink('directory'.$id.'/'.$entry);
+          }
+        }
+      }
+    }
+    closedir($handle);
+  }else{
+    $_SESSION['flash']['danger'] = "Impossible de supprimer le contenu du dossier, le dossier n'existe pas";
+    header('Location:'.WEBROOT.'admin/directory.php');
+    die();
   }
 }
 
 // Fonction qui permet de supprimer un répertoire
 function remove_directory($name){
-  if(file_exists('directory/'.$name) && is_dir('directory/'.$name)){
-      rmdir('directory/'.$name);
+  $id = trim($name, "'");
+  if(file_exists('directory/'.$id)){
+    if(!rmdir('directory/'.$id)){
+      $_SESSION['flash']['danger'] = "Impossible de supprimer le dossier, vérifier les permissions du serveur web sur l'application";
+      header('Location:'.WEBROOT.'admin/directory.php');
+      die();
+    }
   }
 }
 

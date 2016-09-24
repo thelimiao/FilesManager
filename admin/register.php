@@ -26,8 +26,17 @@
           $req = $pdo->prepare("INSERT INTO users SET username = ?, password = ?, id_rank = ?");
           $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
           $req->execute([$_POST['username'], $password, $_POST['rank']]);
+
+          if($_POST['check']){
+            $id_user = $pdo->lastInsertId();
+            $req = $pdo->prepare("INSERT INTO directory SET name = ?, id_user = ?");
+            $req->execute([$_POST['username'], $id_user]);
+            $id_directory = $pdo->lastInsertId();
+            new_directory($id_directory);
+          }
+
           $_SESSION['flash']['success'] = 'Le compte a bien était créer';
-          header('location: index.php');
+          header('location: users.php');
           exit();
         }
     }
@@ -90,6 +99,12 @@
               }
               ?>
             </select>
+          <br/>
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" name="check" value="true" checked=""> Créer son dossier
+            </label>
+          </div>
             <?php echo csrfInput(); ?>
           <br/>
             <input type="submit" class="btn btn-success" value="Créer l'utilisateur"/>
