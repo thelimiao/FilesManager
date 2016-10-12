@@ -5,7 +5,6 @@ ini_set('display_errors', 1);
 // Initialisation du nom du dossier racine de l'application pour les liens
 $app = "filesmanager";
 $url = explode($app, $_SERVER['REQUEST_URI']);
-
 if(count($url) == 1){
     define('WEBROOT', '/');
 }else{

@@ -1,5 +1,5 @@
       <footer class="footer">
-        <p class="text-center">Copyright &copy; 2016 - Développé par <a href="http://fukotaku.fr/" target="_blank">Fukotaku</a></p>
+        <p class="text-center">Développé par la <a href="http://horyzone.fr/" target="_blank">Team Horyzone</a></p>
       </footer>
 
   <!-- Bootstrap core JavaScript -->
