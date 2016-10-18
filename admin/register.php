@@ -55,7 +55,7 @@
           </ul>
 
         </nav>
-        <h3 class="text-muted">Créer un nouvelle utilisateur :</h3>
+        <h3>Créer un nouvelle utilisateur :</h3>
       </div>
 
       <div class="jumbotron">

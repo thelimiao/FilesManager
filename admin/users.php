@@ -36,7 +36,7 @@
         </ul>
 
       </nav>
-      <h3 class="text-muted">Liste des utilisateurs :</h3>
+      <h3>Liste des utilisateurs :</h3>
     </div>
 
     <div class="jumbotron">

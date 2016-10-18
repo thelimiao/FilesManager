@@ -29,7 +29,7 @@
         </ul>
 
       </nav>
-      <h3 class="text-muted">Liste des dossiers :</h3>
+      <h3>Liste des dossiers :</h3>
     </div>
 
     <div class="jumbotron">

@@ -36,7 +36,7 @@
           </ul>
 
         </nav>
-        <h3 class="text-muted">Créer un dossier :</h3>
+        <h3>Créer un dossier :</h3>
       </div>
 
       <div class="jumbotron">

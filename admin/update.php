@@ -72,7 +72,7 @@
           </ul>
 
         </nav>
-        <h3 class="text-muted">Modification de l'utilisateur : <?php echo $result_user->username; ?></h3>
+        <h3>Modification de l'utilisateur : <?php echo $result_user->username; ?></h3>
       </div>
 
       <div class="jumbotron">

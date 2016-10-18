@@ -17,7 +17,7 @@
         </ul>
 
       </nav>
-      <h3 class="text-muted">Les dernières actions :</h3>
+      <h3>Les dernières actions :</h3>
     </div>
 
     <div class="jumbotron">
