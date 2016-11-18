@@ -51,7 +51,7 @@
 
             $req = $pdo->query('SELECT * FROM directory');
             while($data = $req->fetch()){
-              $user = $data->id_user;
+              $user = $pdo->quote($data->id_user);
               $req = $pdo->query("SELECT username FROM users WHERE id = $user");
               $result = $req->fetch();
 

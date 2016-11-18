@@ -58,7 +58,7 @@
 
             $req = $pdo->query('SELECT * FROM users');
             while($data = $req->fetch()){
-              $rank = $data->id_rank;
+              $rank = $pdo->quote($data->id_rank);
               $req2 = $pdo->query("SELECT * FROM ranks WHERE id = $rank");
               $result = $req2->fetch();
 

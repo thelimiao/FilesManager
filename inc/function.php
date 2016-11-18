@@ -1,14 +1,24 @@
 <?php
-// Active l'affichage des erreurs php
-ini_set('display_errors', 1);
 
-// Initialisation du nom du dossier racine de l'application pour les liens
-$app = "filesmanager";
-$url = explode($app, $_SERVER['REQUEST_URI']);
-if(count($url) == 1){
-    define('WEBROOT', '/');
-}else{
-    define('WEBROOT', $url[0] . $app . '/');
+// Fonction qui gère la répartition des redirections
+// $page est le paramètre du nom du fichier que nous souhaite avoir en redirection
+// $meaning est le paramètre qui défini l'emplacement du fichier que nous souhaitons être rediriger
+// (admin) pour dir que le fichier est dans "/admin/" ou (racine) pour dire qu'il est dans la racine de l'application
+// $meaning vide = "racine" par défaut exemple redirection_link('index');
+function redirection_link($page, $meaning = "racine"){
+  if($meaning == 'admin'){
+    if(basename(__DIR__) == 'admin'){
+      header('location: '.$page.'.php');
+    }else{
+      header('location: /admin/'.$page.'.php');
+    }
+  }elseif($meaning == 'racine'){
+    if(basename(__DIR__) == 'admin'){
+      header('location: ../'.$page.'.php');
+    }else{
+      header('location: '.$page.'.php');
+    }
+  }
 }
 
 // Simple fonction pour mieux debug
@@ -27,7 +37,7 @@ function is_session(){
 function is_authenticated(){
     if(!isset($_SESSION['auth'])){
         $_SESSION['flash']['danger'] = 'Vous devez vous connectez';
-        header('location: '.WEBROOT.'login.php');
+        redirection_link('login');
         exit();
     }else{
       // Création de la clef csrf en variable de session
@@ -42,7 +52,8 @@ function check_rank($id_rank){
   if(!isset($pdo)){
       global $pdo;
   }
-  $req = $pdo->query("SELECT name FROM ranks WHERE id = $id_rank");
+  $id = $pdo->quote($id_rank);
+  $req = $pdo->query("SELECT name FROM ranks WHERE id = $id");
   $result = $req->fetch();
   if(!empty($result)){
     return $result->name;
@@ -59,14 +70,13 @@ function is_admin(){
     }
     is_authenticated();
 
-    $rank_id = $_SESSION['auth']->id_rank;
-    $req = $pdo->prepare('SELECT name FROM ranks WHERE id = ?');
-    $req->execute([$rank_id]);
+    $rank_id = $pdo->quote($_SESSION['auth']->id_rank);
+    $req = $pdo->query("SELECT name FROM ranks WHERE id = $rank_id");
     $rank = $req->fetch();
 
     if(isset($rank) && $rank->name != "admin"){
       $_SESSION['flash']['danger'] = "Vous n'avez pas les permissions pour accéder à cette page";
-      header('location: '.WEBROOT.'index.php');
+      redirection_link('index');
       exit();
     }
 
@@ -89,7 +99,7 @@ function checkCsrf(){
       return true;
     }else{
       $_SESSION['flash']['danger'] = "Action impossible, votre clef de session est incorrect ou inexistent.";
-      header('Location:'.WEBROOT.'index.php');
+      redirection_link('index');
       die();
     }
 
@@ -112,7 +122,7 @@ function new_directory($name){
   if(!file_exists('directory/'.$name)){
     if(!mkdir('directory/'.$name, 0775, true)){
       $_SESSION['flash']['danger'] = "Impossible de créer le dossier, vérifier les permissions du serveur web sur l'application";
-      header('Location:'.WEBROOT.'admin/directory.php');
+      redirection_link('directory','admin');
       die();
     }
   }
@@ -134,7 +144,7 @@ function clear_directory($name){
     closedir($handle);
   }else{
     $_SESSION['flash']['danger'] = "Impossible de supprimer le contenu du dossier, le dossier n'existe pas";
-    header('Location:'.WEBROOT.'admin/directory.php');
+    redirection_link('directory','admin');
     die();
   }
 }
@@ -145,7 +155,7 @@ function remove_directory($name){
   if(file_exists('directory/'.$id)){
     if(!rmdir('directory/'.$id)){
       $_SESSION['flash']['danger'] = "Impossible de supprimer le dossier, vérifier les permissions du serveur web sur l'application";
-      header('Location:'.WEBROOT.'admin/directory.php');
+      redirection_link('directory','admin');
       die();
     }
   }

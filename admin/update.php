@@ -5,7 +5,7 @@
 
   // On récupère les informations de l'utilisateur selectionné pour pré-remplir le formulaire
   if(isset($_GET['id']) && preg_match("/^[0-9]+$/i",$_GET['id'])){
-      $id = $_GET['id'];
+      $id = $pdo->quote($_GET['id']);
       $req = $pdo->query("SELECT * FROM users WHERE id = $id");
 
       if(!empty($result_user = $req->fetch())){

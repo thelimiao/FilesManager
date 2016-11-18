@@ -10,11 +10,11 @@
         if(password_verify($_POST['password'], $user->password)){
             $_SESSION['auth'] = $user;
             $_SESSION['flash']['success'] = 'Vous êtes maintenant connecté';
-            header('location: '.WEBROOT.'index.php');
+            redirection_link('index');
             exit();
         }else{
             $_SESSION['flash']['danger'] = "Identifiant ou mot de passe incorrecte";
-            header('location: '.WEBROOT.'login.php');
+            redirection_link('login');
             exit();
         }
   }
