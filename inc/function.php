@@ -63,6 +63,21 @@ function check_rank($id_rank){
 
 }
 
+// Fonction qui retourne l'id du dossier qui appartient à l'utilisateur via son id
+function check_directory($id_user){
+  if(!isset($pdo)){
+      global $pdo;
+  }
+  $id = $pdo->quote($id_user);
+  $req = $pdo->query("SELECT id FROM directory WHERE id_user = $id");
+  $result = $req->fetch();
+  if(!empty($result)){
+    return $result->id;
+  }else{
+    return false;
+  }
+}
+
 // Fonction qui vérifie et authorise l'accès si la personne authentifié est dans le groupe admin
 function is_admin(){
     if(!isset($pdo)){

@@ -3,92 +3,45 @@ $page = "index";
   require_once 'inc/header.php';
   is_authenticated();
   $rank = check_rank($_SESSION['auth']->id_rank);
+  $directory = check_directory($_SESSION['auth']->id);
 
   /*
-   * La sauvegarde
+   * Upload de fichier
    */
-  if(isset($_POST['name']) && isset($_POST['description']) && isset($_POST['url'])){
+  if(!empty($_FILES['file']['name'])){
+    checkCsrf();
 
-      checkCsrf();
-      $name = $pdo->quote($_POST['name']);
-      $description = $pdo->quote($_POST['description']);
-      $url = $pdo->quote($_POST['url']);
+    /*
+     * Envoie de fichier sur serveur
+     */
 
-      /*
-       * Sauvegarde de la réalisation
-       */
-      if(isset($_GET['id'])){
-          $id_achievement = $pdo->quote($_GET['id']);
-          $pdo->query("UPDATE achievements SET name = $name, description = $description, url = $url WHERE id = $id_achievement");
-      }else{
-          $pdo->query("INSERT INTO achievements SET name = $name, description = $description, url = $url");
-          $id_achievement = $pdo->lastInsertId();
-      }
+    if(empty($file_exist)){
 
-      /*
-       * Envoie des images
-       */
-      if(!empty($_FILES['file']['name'])){
-        $verif = $pdo->query("SELECT * FROM images WHERE id_achievement = $id_achievement");
-        $img_exist = $verif->fetch();
+      $target_dir = dirname(__FILE__)."/admin/directory/".$directory."/";
+      $target_file = $target_dir . basename($_FILES['file']['name']);
+      $extension = pathinfo($target_file, PATHINFO_EXTENSION);
 
-        if(empty($img_exist)){
+      $file_name = $_FILES['file']['name'];
+      move_uploaded_file($_FILES['file']["tmp_name"], $target_file);
 
-          $target_dir = dirname(dirname(__FILE__))."/asset/img/works/";
-          $target_file = $target_dir . basename($_FILES['file']['name']);
-          $extension = pathinfo($target_file, PATHINFO_EXTENSION);
+    }
+    /*
+     * Enregistrement du fichier en base
+     */
+    $name = $pdo->quote($_FILES['file']['name']);
+    $directory_id = $pdo->quote($directory);
 
-          if($extension == 'jpg' || $extension == 'png'){
-
-              $pdo->query("INSERT INTO images SET id_achievement = $id_achievement");
-              $image_id = $pdo->lastInsertId();
-              $image_name = $image_id . '.' . $extension;
-              move_uploaded_file($_FILES['file']["tmp_name"], $target_dir . $image_name);
-              $image_name = $pdo->quote($image_name);
-              $pdo->query("UPDATE images SET name = $image_name WHERE id = $image_id");
-
-          }else{
-            $_SESSION['flash']['danger'] = 'Format non autorisé';
-          }
-
-        }else{
-
-          $target_dir = dirname(dirname(__FILE__))."/asset/img/works/";
-
-          $img_delete = $pdo->quote($img_exist->id_achievement);
-          $pdo->query("DELETE FROM images WHERE id_achievement = $img_delete");
-          unlink($target_dir . $img_exist->name);
+    $image = 0;
+    $video = 0;
 
 
-          $target_file = $target_dir . basename($_FILES['file']['name']);
-          $extension = pathinfo($target_file, PATHINFO_EXTENSION);
+    $pdo->query("INSERT INTO files SET name = $name, image = $image, video = $video, id_directory = $directory_id");
 
-
-          if($extension == 'jpg' || $extension == 'png'){
-
-              $pdo->query("INSERT INTO images SET id_achievement = $id_achievement");
-              $image_id = $pdo->lastInsertId();
-              $image_name = $image_id . '.' . $extension;
-              move_uploaded_file($_FILES['file']["tmp_name"], $target_dir . $image_name);
-              $image_name = $pdo->quote($image_name);
-              $pdo->query("UPDATE images SET name = $image_name WHERE id = $image_id");
-
-          }else{
-            $_SESSION['flash']['danger'] = 'Mauvais format d\'image';
-          }
-          
-
-        }
-      }
-
-      $_SESSION['flash']['success'] = 'Le fichier a bien été uploadé';
-      header('location: realisations.php');
-      exit();
-
+    $_SESSION['flash']['success'] = 'Le fichier a bien été uploadé';
+    header('location: index.php');
+    exit();
   }
-  /*
- * // La sauvegarde
- */
+
 
 ?>
 
@@ -128,11 +81,42 @@ $page = "index";
               <button class="browse btn btn-primary" type="button"><i class="glyphicon glyphicon-file"></i> Choisir un fichier</button>
             </span>
           </div>
+          <?php echo csrfInput(); ?>
           <br/>
           <input type="submit" id="btnSubmit" value="Uploader" class="btn btn-success" />
       </form>
       <br/><br/>
       <p>Vos fichiers:</p>
+      <br/>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Nom du dossier</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <?php
+
+            $directory_id = $pdo->quote($directory);
+            $req = $pdo->query("SELECT * FROM files WHERE id_directory = $directory_id");
+            while($data = $req->fetch()){
+
+              echo '<tr>
+                      <td>'.$data->name.'</td>
+                      <td>
+                      <a href="#" class="btn btn-success input-margin">Télécharger</a>
+                      <a href="index.php?delete='.$data->id.'&'.csrf().'" class="btn btn-danger input-margin" onclick="return confirm(\'Êtes vous sur ?\');">Supprimer</a>
+                      </td>
+                    </tr>';
+            }
+
+          ?>
+
+        </tbody>
+      </table>
+
     </div><!-- /jumbotron -->
 
   </div><!-- /container -->
