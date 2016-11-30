@@ -33,3 +33,6 @@ Les issues peuvent êtres créer avec des étiquettes qui sont faits pour défin
 
 ## Les issues bugs
 Pour toutes envoies d'issue sur des bugs, merci de bien expliquer votre problème en citant les **étapes que vous avez effectuées**, la **configuration de votre environnement**, d'accompagner d'un ou plusieurs **screenshots** si besoin et d'avoir vérifié la documentation sur le [README.md](https://github.com/Horyzone/FilesManager/blob/master/README.md) avant de poster.
+
+## Les pull requests
+Pour l'envoi de pull requests, merci de commiter vos modifications/ajouts sur une branche à part exemple : `feature-upload`.
