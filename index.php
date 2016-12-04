@@ -31,10 +31,6 @@ $page = "index";
     $name = $pdo->quote($_FILES['file']['name']);
     $directory_id = $pdo->quote($directory);
 
-    $image = 0;
-    $video = 0;
-
-
     $pdo->query("INSERT INTO files SET name = $name, id_directory = $directory_id");
 
     $_SESSION['flash']['success'] = 'Le fichier a bien été uploadé';
