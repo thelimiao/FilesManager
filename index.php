@@ -35,7 +35,7 @@ $page = "index";
     $video = 0;
 
 
-    $pdo->query("INSERT INTO files SET name = $name, image = $image, video = $video, id_directory = $directory_id");
+    $pdo->query("INSERT INTO files SET name = $name, id_directory = $directory_id");
 
     $_SESSION['flash']['success'] = 'Le fichier a bien été uploadé';
     header('location: index.php');

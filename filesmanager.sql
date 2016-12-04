@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.4.1deb2ubuntu2
--- http://www.phpmyadmin.net
+-- version 4.6.5.1
+-- https://www.phpmyadmin.net/
 --
--- Client :  localhost
--- Généré le :  Ven 18 Novembre 2016 à 13:12
--- Version du serveur :  5.7.16
--- Version de PHP :  7.0.13-1+deb.sury.org~xenial+1
+-- Host: localhost
+-- Generation Time: Dec 04, 2016 at 05:32 PM
+-- Server version: 10.1.19-MariaDB
+-- PHP Version: 7.0.13
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,13 +17,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données :  `filesmanager`
+-- Database: `filesmanager`
 --
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `access`
+-- Table structure for table `access`
 --
 
 CREATE TABLE `access` (
@@ -36,7 +36,7 @@ CREATE TABLE `access` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `directory`
+-- Table structure for table `directory`
 --
 
 CREATE TABLE `directory` (
@@ -46,7 +46,7 @@ CREATE TABLE `directory` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Contenu de la table `directory`
+-- Dumping data for table `directory`
 --
 
 INSERT INTO `directory` (`id`, `name`, `id_user`) VALUES
@@ -55,7 +55,7 @@ INSERT INTO `directory` (`id`, `name`, `id_user`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `files`
+-- Table structure for table `files`
 --
 
 CREATE TABLE `files` (
@@ -67,7 +67,7 @@ CREATE TABLE `files` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `internal`
+-- Table structure for table `internal`
 --
 
 CREATE TABLE `internal` (
@@ -80,7 +80,7 @@ CREATE TABLE `internal` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `logs`
+-- Table structure for table `logs`
 --
 
 CREATE TABLE `logs` (
@@ -94,7 +94,7 @@ CREATE TABLE `logs` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `permissions`
+-- Table structure for table `permissions`
 --
 
 CREATE TABLE `permissions` (
@@ -107,7 +107,7 @@ CREATE TABLE `permissions` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `ranks`
+-- Table structure for table `ranks`
 --
 
 CREATE TABLE `ranks` (
@@ -116,7 +116,7 @@ CREATE TABLE `ranks` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Contenu de la table `ranks`
+-- Dumping data for table `ranks`
 --
 
 INSERT INTO `ranks` (`id`, `name`) VALUES
@@ -126,7 +126,7 @@ INSERT INTO `ranks` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `users`
+-- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
@@ -137,18 +137,18 @@ CREATE TABLE `users` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
--- Contenu de la table `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `id_rank`) VALUES
 (25, 'admin', '$2y$10$sHLvx99FTPlUwDD5O5hbceauTsyfoq/2fyoXRwTiOFE0RFZavhrMy', 1);
 
 --
--- Index pour les tables exportées
+-- Indexes for dumped tables
 --
 
 --
--- Index pour la table `access`
+-- Indexes for table `access`
 --
 ALTER TABLE `access`
   ADD PRIMARY KEY (`id`),
@@ -156,93 +156,93 @@ ALTER TABLE `access`
   ADD KEY `id_directory` (`id_directory`);
 
 --
--- Index pour la table `directory`
+-- Indexes for table `directory`
 --
 ALTER TABLE `directory`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_user` (`id_user`);
 
 --
--- Index pour la table `files`
+-- Indexes for table `files`
 --
 ALTER TABLE `files`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_directory` (`id_directory`);
 
 --
--- Index pour la table `internal`
+-- Indexes for table `internal`
 --
 ALTER TABLE `internal`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_user` (`id_user`);
 
 --
--- Index pour la table `logs`
+-- Indexes for table `logs`
 --
 ALTER TABLE `logs`
   ADD PRIMARY KEY (`id`);
 
 --
--- Index pour la table `permissions`
+-- Indexes for table `permissions`
 --
 ALTER TABLE `permissions`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_rank` (`id_rank`);
 
 --
--- Index pour la table `ranks`
+-- Indexes for table `ranks`
 --
 ALTER TABLE `ranks`
   ADD PRIMARY KEY (`id`);
 
 --
--- Index pour la table `users`
+-- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD KEY `id_rank` (`id_rank`);
 
 --
--- AUTO_INCREMENT pour les tables exportées
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT pour la table `access`
+-- AUTO_INCREMENT for table `access`
 --
 ALTER TABLE `access`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT pour la table `directory`
+-- AUTO_INCREMENT for table `directory`
 --
 ALTER TABLE `directory`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 --
--- AUTO_INCREMENT pour la table `files`
+-- AUTO_INCREMENT for table `files`
 --
 ALTER TABLE `files`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT pour la table `internal`
+-- AUTO_INCREMENT for table `internal`
 --
 ALTER TABLE `internal`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT pour la table `logs`
+-- AUTO_INCREMENT for table `logs`
 --
 ALTER TABLE `logs`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
--- AUTO_INCREMENT pour la table `permissions`
+-- AUTO_INCREMENT for table `permissions`
 --
 ALTER TABLE `permissions`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT pour la table `ranks`
+-- AUTO_INCREMENT for table `ranks`
 --
 ALTER TABLE `ranks`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
--- AUTO_INCREMENT pour la table `users`
+-- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
