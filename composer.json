@@ -1,0 +1,5 @@
+{
+    "require-dev": {
+        "phpro/grumphp": "^0.10.1"
+    }
+}
