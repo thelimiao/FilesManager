@@ -1,9 +1,14 @@
 <?php
 
+$servername = "localhost";
+$username = "root";
+$password = "root";
+$dbname = "filesmanager";
+
 // On essaye de se connecter à la base de données
 try{
   // Les informations de la base de données
-  $pdo = new PDO('mysql:host=localhost;dbname=filesmanager', 'root', 'root');
+  $pdo = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
 
   // Attribut pour définir les type de messages d'erreurs
   $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
