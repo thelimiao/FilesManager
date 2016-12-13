@@ -121,9 +121,7 @@ $page = "index";
 
       <div id="status"></div>
       <hr>
-      <h2><strong>Mes répertoires :</strong></h2>
-      <br/>
-      <p>Mon répertoire personnel :</p>
+      <h2><strong>Répertoire personnel :</strong></h2>
       <table class="table table-striped">
         <thead>
           <tr>
