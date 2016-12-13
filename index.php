@@ -73,14 +73,18 @@ $page = "index";
     <div class="header clearfix">
       <nav>
 
+        <ul class="nav nav-pills pull-left">
+          <li><a href="logout.php"><span class="glyphicon glyphicon-folder-open"></span> &nbsp;Mes dossiers</a></li>
+        </ul>
+
         <ul class="nav nav-pills pull-right">
           <?php
 
           if($rank === "admin"){
-            echo '<li><a href="admin/index.php">Panel admin</a></li>';
+            echo '<li><a href="admin/index.php"><span class="glyphicon glyphicon-user"></span> Panel admin</a></li>';
           }
           ?>
-          <li><a href="logout.php">Se déconnecter</a></li>
+          <li><a href="logout.php"><span class="glyphicon glyphicon-off"></span> Se déconnecter</a></li>
         </ul>
 
       </nav>
@@ -106,7 +110,7 @@ $page = "index";
           </div>
           <?php echo csrfInput(); ?>
           <br/>
-          <input type="submit" id="btnSubmit" value="Uploader" class="btn btn-success" />
+          <button type="submit" id="btnSubmit" class="btn btn-success"><span class="glyphicon glyphicon-open"></span> Uploader</button>
       </form>
 
       <div id="thebar" class="progress progress-striped active">
@@ -117,11 +121,11 @@ $page = "index";
 
       <div id="status"></div>
       <br/>
-      <p>Vos fichiers:</p>
+      <p>Votre dossier personnel :</p>
       <table class="table table-striped">
         <thead>
           <tr>
-            <th>Nom du dossier</th>
+            <th>Nom du fichier</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -137,18 +141,18 @@ $page = "index";
                       <td>'.$data->name.'</td>
                       <td>
                       <div class="btn-group">
-                        <a href="download.php?id='.$data->id.'" class="btn btn-success">Télécharger le fichier</a>';
+                        <a href="download.php?id='.$data->id.'" class="btn btn-success"><span class="glyphicon glyphicon-save"></span> Télécharger le fichier</a>';
                 $extension = explode(".", $data->name);
                 $count = count($extension);
                 $number = $count-1;
                 if($extension[$number] === 'mp4'){
                   echo '<a href="#" class="btn btn-success dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                          <li><a href="#">Visualiser la vidéo</a></li>
+                          <li><a href="#"><span class="glyphicon glyphicon-facetime-video"></span> Regarder en streaming</a></li>
                         </ul>';
                 }
                 echo '</div>
-                      <a href="index.php?delete='.$data->id.'&'.csrf().'" class="btn btn-danger input-margin" onclick="return confirm(\'Êtes vous sur ?\');">Supprimer</a>
+                      <a href="index.php?delete='.$data->id.'&'.csrf().'" class="btn btn-danger input-margin" onclick="return confirm(\'Êtes vous sur ?\');"><span class="glyphicon glyphicon-trash"></span> Supprimer</a>
                       </td>
                     </tr>';
             }
@@ -183,14 +187,12 @@ $(document).on('change', '.file', function(){
     $('span#alertFile').show();
     $('div.progress').hide();
 
-    $("input#btnSubmit").removeClass();
-    $("input#btnSubmit").addClass("btn btn-danger disabled");
+    $("button#btnSubmit").hide();
   }else{
     $('div.progress').show();
     $('span#alertFile').hide();
 
-    $("input#btnSubmit").removeClass();
-    $("input#btnSubmit").addClass("btn btn-success");
+    $("button#btnSubmit").show();
   }
 
 });

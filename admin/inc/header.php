@@ -33,7 +33,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-        <a class="navbar-brand"><span class="glyphicon glyphicon-blackboard"></span> &nbsp;Files Manager : Panel administrateur</a>
+        <a class="navbar-brand"><span class="glyphicon glyphicon-file"></span> &nbsp;Files Manager : Panel administrateur</a>
       </div>
 
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -41,6 +41,7 @@
           <li <?php if(isset($page) && $page == "index"){echo "class=\"active\"";} ?>><a href="index.php"> <span class="glyphicon glyphicon-list-alt"></span> &nbsp;Les logs</a></li>
           <li <?php if(isset($page) && $page == "users"){echo "class=\"active\"";} ?>><a href="users.php"> <span class="glyphicon glyphicon-user"></span> &nbsp;Les utilisateurs</a></li>
           <li <?php if(isset($page) && $page == "directory"){echo "class=\"active\"";} ?>><a href="directory.php"> <span class="glyphicon glyphicon-folder-open"></span> &nbsp;Les répertoires</a></li>
+          <li <?php if(isset($page) && $page == "settings"){echo "class=\"active\"";} ?>><a href="settings.php"> <span class="glyphicon glyphicon-wrench"></span> &nbsp;Les paramètres</a></li>
         </ul>
       </div>
 

@@ -31,8 +31,8 @@
       <nav>
 
         <ul class="nav nav-pills pull-right">
-          <li><a href="../index.php">Retourner à l'accueil</a></li>
-          <li><a href="../logout.php">Se déconnecter</a></li>
+          <li><a href="../index.php"><span class="glyphicon glyphicon-home"></span> Retourner à l'accueil</a></li>
+          <li><a href="../logout.php"><span class="glyphicon glyphicon-off"></span> Se déconnecter</a></li>
         </ul>
 
       </nav>
@@ -41,7 +41,7 @@
 
     <div class="jumbotron">
 
-      <a href="register.php" class="btn btn-success input-margin">Créer un utilisateur</a>
+      <a href="register.php" class="btn btn-success input-margin"><span class="glyphicon glyphicon-plus"></span> Créer un utilisateur</a>
       <br/><br/>
 
       <table class="table table-striped">
@@ -66,9 +66,9 @@
                       <td>'.$data->username.'</td>
                       <td>'.$result->name.'</td>
                       <td>
-                        <a href="update.php?id='.$data->id.'" class="btn btn-warning input-margin">Editer le compte</a>
-                        <a href="access.php?id='.$data->id.'" class="btn btn-info input-margin">Gérer les répertoires</a>
-                        <a href="users.php?delete='.$data->id.'&'.csrf().'" class="btn btn-danger input-margin" onclick="return confirm(\'Êtes vous sur ?\');">Supprimer l\'utilisateur</a>
+                        <a href="update.php?id='.$data->id.'" class="btn btn-warning input-margin"><span class="glyphicon glyphicon-cog"></span> Editer le compte</a>
+                        <a href="access.php?id='.$data->id.'" class="btn btn-info input-margin"><span class="glyphicon glyphicon-folder-open"></span> &nbsp;Gérer ses répertoires</a>
+                        <a href="users.php?delete='.$data->id.'&'.csrf().'" class="btn btn-danger input-margin" onclick="return confirm(\'Êtes vous sur ?\');"><span class="glyphicon glyphicon-trash"></span> Supprimer l\'utilisateur</a>
                       </td>
                     </tr>';
             }

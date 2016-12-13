@@ -24,8 +24,8 @@
       <nav>
 
         <ul class="nav nav-pills pull-right">
-          <li><a href="../index.php">Retourner à l'accueil</a></li>
-          <li><a href="../logout.php">Se déconnecter</a></li>
+          <li><a href="../index.php"><span class="glyphicon glyphicon-home"></span> Retourner à l'accueil</a></li>
+          <li><a href="../logout.php"><span class="glyphicon glyphicon-off"></span> Se déconnecter</a></li>
         </ul>
 
       </nav>
@@ -34,7 +34,8 @@
 
     <div class="jumbotron">
 
-      <a href="create.php" class="btn btn-success input-margin">Créer un dossier</a>
+      <a href="create.php" class="btn btn-success input-margin"><span class="glyphicon glyphicon-plus"></span> Créer un dossier</a>
+      <a href="create.php" class="btn btn-success input-margin"><span class="glyphicon glyphicon-hdd"></span> Ajouter un dossier existent</a>
       <br/><br/>
 
       <table class="table table-striped">
@@ -59,7 +60,7 @@
                       <td>'.$data->name.'</td>
                       <td>'.$result->username.'</td>
                       <td>
-                        <a href="directory.php?delete='.$data->id.'&'.csrf().'" class="btn btn-danger input-margin" onclick="return confirm(\'Êtes vous sur ?\');">Supprimer le dossier</a>
+                        <a href="directory.php?delete='.$data->id.'&'.csrf().'" class="btn btn-danger input-margin" onclick="return confirm(\'Êtes vous sur ?\');"><span class="glyphicon glyphicon-trash"></span> Supprimer le dossier</a>
                       </td>
                     </tr>';
             }
