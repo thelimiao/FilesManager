@@ -5,37 +5,57 @@ $page = "index";
   $rank = check_rank($_SESSION['auth']->id_rank);
   $directory = check_directory($_SESSION['auth']->id);
 
+
+  if(isset($_GET['delete'])){
+    checkCsrf();
+
+    $id = $pdo->quote($_GET['delete']);
+    $req = $pdo->query("DELETE FROM files WHERE id = $id");
+
+    $_SESSION['flash']['success'] = 'Le fichier à bien été supprimé';
+    header('location: index.php');
+    exit();
+  }
+
+
   /*
    * Upload de fichier
    */
   if(!empty($_FILES['file']['name'])){
     checkCsrf();
 
-    /*
-     * Envoie de fichier sur serveur
-     */
 
-    if(empty($file_exist)){
-
-      $target_dir = dirname(__FILE__)."/admin/directory/".$directory."/";
-      $target_file = $target_dir . basename($_FILES['file']['name']);
-      $extension = pathinfo($target_file, PATHINFO_EXTENSION);
-
-      $file_name = $_FILES['file']['name'];
-      move_uploaded_file($_FILES['file']["tmp_name"], $target_file);
-
+    if ($_FILES["file"]["size"] > 104857600) {
+      $_SESSION['flash']['warning'] = 'Le fichier est trop grand';
+      header('location: index.php');
+      exit();
     }
-    /*
-     * Enregistrement du fichier en base
-     */
-    $name = $pdo->quote($_FILES['file']['name']);
-    $directory_id = $pdo->quote($directory);
 
-    $pdo->query("INSERT INTO files SET name = $name, id_directory = $directory_id");
+      /*
+       * Envoie de fichier sur serveur
+       */
+      if(empty($file_exist)){
 
-    $_SESSION['flash']['success'] = 'Le fichier a bien été uploadé';
-    header('location: index.php');
-    exit();
+        $target_dir = dirname(__FILE__)."/admin/directory/".$directory."/";
+        $target_file = $target_dir . basename($_FILES['file']['name']);
+        $extension = pathinfo($target_file, PATHINFO_EXTENSION);
+
+        $file_name = $_FILES['file']['name'];
+        move_uploaded_file($_FILES['file']["tmp_name"], $target_file);
+
+      }
+      /*
+       * Enregistrement du fichier en base
+       */
+      $name = $pdo->quote($_FILES['file']['name']);
+      $directory_id = $pdo->quote($directory);
+
+      $pdo->query("INSERT INTO files SET name = $name, id_directory = $directory_id");
+
+      $_SESSION['flash']['success'] = 'Le fichier a bien été uploadé';
+      header('location: index.php');
+      exit();
+
   }
 
 
@@ -81,9 +101,13 @@ $page = "index";
           <br/>
           <input type="submit" id="btnSubmit" value="Uploader" class="btn btn-success" />
       </form>
-      <br/><br/>
-      <p>Vos fichiers:</p>
+
+      <div class="progress progress-striped active">
+        <div class="progress-bar" style="width: 0%">0%</div>
+      </div>
+      <div id="status"></div>
       <br/>
+      <p>Vos fichiers:</p>
       <table class="table table-striped">
         <thead>
           <tr>
@@ -121,7 +145,11 @@ $page = "index";
 <?php
   require_once 'inc/footer.php';
 ?>
+
+<script src="asset/js/jquery.ajax.js"></script>
 <script type="text/javascript">
+
+$('div.progress').hide();
 
 $(document).on('click', '.browse', function(){
   var file = $(this).parent().parent().parent().find('.file');
@@ -129,7 +157,37 @@ $(document).on('click', '.browse', function(){
 });
 $(document).on('change', '.file', function(){
   $(this).parent().find('.form-control').val($(this).val().replace(/C:\\fakepath\\/i, ''));
-  $('div#progress-bar-div').show();
+  $('div.progress').show();
+});
+/*
+(function() {
+
+var percent = $('div.progress-bar');
+var status = $('#status');
+
+$('form').ajaxForm({
+    beforeSend: function() {
+      status.empty();
+        var percentVal = '0%';
+        percent.width(percentVal)
+        percent.html(percentVal);
+    },
+    uploadProgress: function(event, position, total, percentComplete) {
+        var percentVal = percentComplete + '%';
+        percent.width(percentVal)
+        percent.html(percentVal);
+    },
+    success: function() {
+        var percentVal = '100%';
+        percent.width(percentVal)
+        percent.html(percentVal);
+    },
+	complete: function(xhr) {
+		status.html("Fichier uploadé");
+    window.location.assign("index.php");
+	}
 });
 
+})();
+*/
 </script>
