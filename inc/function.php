@@ -7,16 +7,16 @@
 // $meaning vide = "racine" par défaut exemple redirection_link('index');
 function redirection_link($page, $meaning = "racine"){
   if($meaning == 'admin'){
-    if(basename(__DIR__) == 'admin'){
+    if(!file_exists('admin')){
       header('location: '.$page.'.php');
     }else{
       header('location: /admin/'.$page.'.php');
     }
   }elseif($meaning == 'racine'){
-    if(basename(__DIR__) == 'admin'){
-      header('location: ../'.$page.'.php');
-    }else{
+    if(file_exists('admin')){
       header('location: '.$page.'.php');
+    }else{
+      header('location: ../'.$page.'.php');
     }
   }
 }
@@ -50,7 +50,7 @@ function is_authenticated(){
 // Fonction qui retourne le nom du grade via sont id
 function check_rank($id_rank){
   if(!isset($pdo)){
-      global $pdo;
+    global $pdo;
   }
   $id = $pdo->quote($id_rank);
   $req = $pdo->query("SELECT name FROM ranks WHERE id = $id");
@@ -66,7 +66,7 @@ function check_rank($id_rank){
 // Fonction qui retourne l'id du dossier qui appartient à l'utilisateur via son id
 function check_directory($id_user){
   if(!isset($pdo)){
-      global $pdo;
+    global $pdo;
   }
   $id = $pdo->quote($id_user);
   $req = $pdo->query("SELECT id FROM directory WHERE id_user = $id");
@@ -80,20 +80,30 @@ function check_directory($id_user){
 
 // Fonction qui vérifie et authorise l'accès si la personne authentifié est dans le groupe admin
 function is_admin(){
-    if(!isset($pdo)){
-        global $pdo;
-    }
-    is_authenticated();
+  if(!isset($pdo)){
+      global $pdo;
+  }
 
-    $rank_id = $pdo->quote($_SESSION['auth']->id_rank);
-    $req = $pdo->query("SELECT name FROM ranks WHERE id = $rank_id");
-    $rank = $req->fetch();
-
-    if(isset($rank) && $rank->name != "admin"){
-      $_SESSION['flash']['danger'] = "Vous n'avez pas les permissions pour accéder à cette page";
-      redirection_link('index');
+  if(!isset($_SESSION['auth'])){
+      $_SESSION['flash']['danger'] = 'Vous devez vous connectez';
+      redirection_link('login');
       exit();
+  }else{
+    // Création de la clef csrf en variable de session
+    if(!isset($_SESSION['csrf'])){
+        $_SESSION['csrf'] = md5(time() + rand());
     }
+  }
+
+  $rank_id = $pdo->quote($_SESSION['auth']->id_rank);
+  $req = $pdo->query("SELECT name FROM ranks WHERE id = $rank_id");
+  $rank = $req->fetch();
+
+  if(isset($rank) && $rank->name != "admin"){
+    $_SESSION['flash']['danger'] = "Vous n'avez pas les permissions pour accéder à cette page";
+    redirection_link('index');
+    exit();
+  }
 
 }
 
@@ -134,8 +144,8 @@ function get_ip(){
 
 // Fonction qui permet de créer un répertoire
 function new_directory($name){
-  if(!file_exists('directory/'.$name)){
-    if(!mkdir('directory/'.$name, 0775, true)){
+  if(!file_exists('../directory/'.$name)){
+    if(!mkdir('../directory/'.$name, 0775, true)){
       $_SESSION['flash']['danger'] = "Impossible de créer le dossier, vérifier les permissions du serveur web sur l'application";
       redirection_link('directory','admin');
       die();
@@ -146,8 +156,8 @@ function new_directory($name){
 // Fonction qui permet de supprimer le contenu d'un répertoire
 function clear_directory($name){
   $id = trim($name, "'");
-  if(file_exists('directory/'.$id) && is_dir('directory/'.$id)){
-    if($handle = opendir('directory/'.$id)){
+  if(file_exists('../directory/'.$id) && is_dir('../directory/'.$id)){
+    if($handle = opendir('../directory/'.$id)){
       while(false !== ($entry = readdir($handle))){
         if($entry != "." && $entry != ".."){
           if(!isset($entry)){
@@ -167,8 +177,8 @@ function clear_directory($name){
 // Fonction qui permet de supprimer un répertoire
 function remove_directory($name){
   $id = trim($name, "'");
-  if(file_exists('directory/'.$id)){
-    if(!rmdir('directory/'.$id)){
+  if(file_exists('../directory/'.$id)){
+    if(!rmdir('../directory/'.$id)){
       $_SESSION['flash']['danger'] = "Impossible de supprimer le dossier, vérifier les permissions du serveur web sur l'application";
       redirection_link('directory','admin');
       die();
@@ -181,6 +191,7 @@ function remove_file($idFile){
   if(!isset($pdo)){
       global $pdo;
   }
+
   $id = $pdo->quote($idFile);
   $req = $pdo->query("SELECT * FROM files WHERE id = $id");
   while($data = $req->fetch()){
@@ -188,8 +199,8 @@ function remove_file($idFile){
     $dirNumber = $data->id_directory;
   }
 
-  if(file_exists('admin/directory/'.$dirNumber.'/'.$fileName)){
-    if(!unlink('admin/directory/'.$dirNumber.'/'.$fileName)){
+  if(file_exists('directory/'.$dirNumber.'/'.$fileName)){
+    if(!unlink('directory/'.$dirNumber.'/'.$fileName)){
       $_SESSION['flash']['danger'] = "Impossible de supprimer le fichier, vérifier les permissions du serveur web sur l'application";
       redirection_link('index');
       die();
@@ -199,12 +210,14 @@ function remove_file($idFile){
 
 // Fonction qui converti une valeur MO en Octets
 function moConvert($value){
+
   $result = $value * 1048576;
   return $result;
 }
 
 // Fonction qui converti une valeur Go en Octets
 function goConvert($value){
+
   $result = $value * 1073741824;
   return $result;
 }

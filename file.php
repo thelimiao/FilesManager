@@ -26,7 +26,10 @@
           }elseif($extension == 'mp3' || $extension == 'wav' || $extension == 'ogg'){
             $fileType = 'sound';
           }elseif($extension == 'jpg' || $extension == 'jpeg' || $extension == 'png' || $extension == 'gif' || $extension == 'bmp' || $extension == 'svg' || $extension == 'icon'){
-            header('location: admin/directory/'.$directoryLocation.'/'.$fileName);
+            header('location: directory/'.$directoryLocation.'/'.$fileName);
+            exit();
+          }elseif($extension == 'pdf'){
+            header('location: directory/'.$directoryLocation.'/'.$fileName);
             exit();
           }else{
             $_SESSION['flash']['danger'] = 'Format du fichier non pris en charge';
@@ -96,14 +99,14 @@
           echo '<h2><strong>Vous regardez '.$fileName.'</strong></h2>';
           echo '<br/>';
           echo '<p><video width="720" controls>
-                  <source src="admin/directory/'.$directoryLocation.'/'.$fileName.'" type="video/'.$extension.'">
+                  <source src="directory/'.$directoryLocation.'/'.$fileName.'" type="video/'.$extension.'">
                   Votre navigateur ne supporte pas la lecture de vidéo avec HTML5.
                 </video></p>';
         }elseif($fileType === 'sound'){
           echo '<h2><strong>Vous écoutez '.$fileName.'</strong></h2>';
           echo '<br/>';
           echo '<p><audio controls>
-                  <source src="admin/directory/'.$directoryLocation.'/'.$fileName.'" type="audio/'.$extension.'">
+                  <source src="directory/'.$directoryLocation.'/'.$fileName.'" type="audio/'.$extension.'">
                 otre navigateur ne supporte pas la lecture de son avec HTML5.
                 </audio></p>';
         }

@@ -46,7 +46,7 @@ $page = "index";
 
       if($file_exist == false){
 
-        $target_dir = dirname(__FILE__)."/admin/directory/".$directory."/";
+        $target_dir = dirname(__FILE__)."/directory/".$directory."/";
         $target_file = $target_dir . basename($_FILES['file']['name']);
         $extension = pathinfo($target_file, PATHINFO_EXTENSION);
 
@@ -74,7 +74,7 @@ $page = "index";
       <nav>
 
         <ul class="nav nav-pills pull-left">
-          <li><a href="logout.php"><span class="glyphicon glyphicon-folder-open"></span> &nbsp;Mes dossiers</a></li>
+          <li><a href="#"><span class="glyphicon glyphicon-folder-open"></span> &nbsp;Mes dossiers partagés</a></li>
         </ul>
 
         <ul class="nav nav-pills pull-right">
@@ -110,16 +110,17 @@ $page = "index";
           </div>
           <?php echo csrfInput(); ?>
           <br/>
+          <div id="thebar" class="progress progress-striped active">
+            <div class="progress-bar" style="width: 0%">0%</div>
+          </div>
+
+          <span id="alertFile" class="label label-danger"><strong>Fichier trop lourd, veuillez en choisir un autre !</strong></span>
+          <div id="status"></div>
+          <br/>
+
           <button type="submit" id="btnSubmit" class="btn btn-success"><span class="glyphicon glyphicon-open"></span> Uploader</button>
       </form>
 
-      <div id="thebar" class="progress progress-striped active">
-        <div class="progress-bar" style="width: 0%">0%</div>
-      </div>
-
-      <span id="alertFile" class="label label-danger"><strong>Fichier trop lourd, la taille max est de 100MO !</strong></span>
-
-      <div id="status"></div>
       <hr>
       <h2><strong>Répertoire personnel :</strong></h2>
       <table class="table table-striped">
@@ -162,6 +163,11 @@ $page = "index";
                         <ul class="dropdown-menu">
                           <li><a href="file.php?id='.$data->id.'&type='.$type.'" target="_blank"><span class="glyphicon glyphicon-picture"></span> Obtenir l\'url</a></li>
                         </ul>';
+                }elseif($extension[$number] == 'pdf'){
+                  echo '<a href="#" class="btn btn-success dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                          <li><a href="file.php?id='.$data->id.'&type='.$type.'" target="_blank"><span class="glyphicon glyphicon-eye-open"></span> Visualiser le document</a></li>
+                        </ul>';
                 }
                 echo '</div>
                       <a href="index.php?delete='.$data->id.'&'.csrf().'" class="btn btn-danger input-margin" onclick="return confirm(\'Êtes vous sur ?\');"><span class="glyphicon glyphicon-trash"></span> Supprimer</a>
@@ -188,6 +194,7 @@ $page = "index";
 
 $('div.progress').hide();
 $('span#alertFile').hide();
+$("button#btnSubmit").hide();
 
 $(document).on('click', '.browse', function(){
   var file = $(this).parent().parent().parent().find('.file');

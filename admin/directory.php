@@ -35,7 +35,7 @@
     <div class="jumbotron">
 
       <a href="create.php" class="btn btn-success input-margin"><span class="glyphicon glyphicon-plus"></span> Créer un dossier</a>
-      <a href="create.php" class="btn btn-success input-margin"><span class="glyphicon glyphicon-hdd"></span> Ajouter un dossier existent</a>
+      <a href="#" class="btn btn-success input-margin"><span class="glyphicon glyphicon-hdd"></span> Ajouter un dossier existent</a>
       <br/><br/>
 
       <table class="table table-striped">
