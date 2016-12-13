@@ -136,7 +136,18 @@ $page = "index";
               echo '<tr>
                       <td>'.$data->name.'</td>
                       <td>
-                      <a href="#" class="btn btn-success input-margin">Télécharger</a>
+                      <div class="btn-group">
+                        <a href="download.php?id='.$data->id.'" class="btn btn-success">Télécharger le fichier</a>';
+                $extension = explode(".", $data->name);
+                $count = count($extension);
+                $number = $count-1;
+                if($extension[$number] === 'mp4'){
+                  echo '<a href="#" class="btn btn-success dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                          <li><a href="#">Visualiser la vidéo</a></li>
+                        </ul>';
+                }
+                echo '</div>
                       <a href="index.php?delete='.$data->id.'&'.csrf().'" class="btn btn-danger input-margin" onclick="return confirm(\'Êtes vous sur ?\');">Supprimer</a>
                       </td>
                     </tr>';
