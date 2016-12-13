@@ -9,6 +9,8 @@ $page = "index";
   if(isset($_GET['delete'])){
     checkCsrf();
 
+    remove_file($_GET['delete']);
+
     $id = $pdo->quote($_GET['delete']);
     $req = $pdo->query("DELETE FROM files WHERE id = $id");
 
@@ -17,15 +19,14 @@ $page = "index";
     exit();
   }
 
-
   /*
    * Upload de fichier
    */
   if(!empty($_FILES['file']['name'])){
     checkCsrf();
 
-
-    if ($_FILES["file"]["size"] > 104857600) {
+    // Vérification de la taille du fichier
+    if($_FILES["file"]["size"] > 104857600){
       $_SESSION['flash']['warning'] = 'Le fichier est trop grand';
       header('location: index.php');
       exit();
@@ -34,7 +35,16 @@ $page = "index";
       /*
        * Envoie de fichier sur serveur
        */
-      if(empty($file_exist)){
+      $file_exist = false;
+      $directory_id = $pdo->quote($directory);
+      $req = $pdo->query("SELECT * FROM files WHERE id_directory = $directory_id");
+      while($data = $req->fetch()){
+        if($_FILES['file']['name'] == $data->name){
+          $file_exist = true;
+        }
+      }
+
+      if($file_exist == false){
 
         $target_dir = dirname(__FILE__)."/admin/directory/".$directory."/";
         $target_file = $target_dir . basename($_FILES['file']['name']);
@@ -44,6 +54,7 @@ $page = "index";
         move_uploaded_file($_FILES['file']["tmp_name"], $target_file);
 
       }
+
       /*
        * Enregistrement du fichier en base
        */
@@ -51,10 +62,6 @@ $page = "index";
       $directory_id = $pdo->quote($directory);
 
       $pdo->query("INSERT INTO files SET name = $name, id_directory = $directory_id");
-
-      $_SESSION['flash']['success'] = 'Le fichier a bien été uploadé';
-      header('location: index.php');
-      exit();
 
   }
 
@@ -90,7 +97,7 @@ $page = "index";
       <h2>Formulaire d'upload :</h2>
       <form class="form-group" id="uploadForm" action="index.php" method="post" enctype=multipart/form-data>
 
-          <input type="file" name="file" class="file">
+          <input id="file" type="file" name="file" class="file">
           <div class="input-group col-xs-12">
             <input type="text" class="form-control" name="file" disabled placeholder="Uploader un fichier">
             <span class="input-group-btn">
@@ -102,9 +109,12 @@ $page = "index";
           <input type="submit" id="btnSubmit" value="Uploader" class="btn btn-success" />
       </form>
 
-      <div class="progress progress-striped active">
+      <div id="thebar" class="progress progress-striped active">
         <div class="progress-bar" style="width: 0%">0%</div>
       </div>
+
+      <span id="alertFile" class="label label-danger"><strong>Fichier trop lourd, la taille max est de 100MO !</strong></span>
+
       <div id="status"></div>
       <br/>
       <p>Vos fichiers:</p>
@@ -150,6 +160,7 @@ $page = "index";
 <script type="text/javascript">
 
 $('div.progress').hide();
+$('span#alertFile').hide();
 
 $(document).on('click', '.browse', function(){
   var file = $(this).parent().parent().parent().find('.file');
@@ -157,14 +168,43 @@ $(document).on('click', '.browse', function(){
 });
 $(document).on('change', '.file', function(){
   $(this).parent().find('.form-control').val($(this).val().replace(/C:\\fakepath\\/i, ''));
-  $('div.progress').show();
+  if(findSize() > 104857600){
+    $('span#alertFile').show();
+    $('div.progress').hide();
+
+    $("input#btnSubmit").removeClass();
+    $("input#btnSubmit").addClass("btn btn-danger disabled");
+  }else{
+    $('div.progress').show();
+    $('span#alertFile').hide();
+
+    $("input#btnSubmit").removeClass();
+    $("input#btnSubmit").addClass("btn btn-success");
+  }
+
 });
-/*
+
+
+
+function findSize() {
+    var fileInput =  document.getElementById("file");
+    try{
+        return fileInput.files[0].size; // Size returned in bytes.
+    }catch(e){
+        var objFSO = new ActiveXObject("Scripting.FileSystemObject");
+        var e = objFSO.getFile( fileInput.value);
+        var fileSize = e.size;
+        return fileSize;
+    }
+}
+function redirection() {
+  window.location.assign("index.php");
+}
 (function() {
 
 var percent = $('div.progress-bar');
 var status = $('#status');
-
+var error = 0;
 $('form').ajaxForm({
     beforeSend: function() {
       status.empty();
@@ -183,11 +223,11 @@ $('form').ajaxForm({
         percent.html(percentVal);
     },
 	complete: function(xhr) {
-		status.html("Fichier uploadé");
-    window.location.assign("index.php");
+      status.html('<span class="label label-success">Fichier uploadé, la page va s\'actualiser dans 5 secondes...</span>');
+      setTimeout(redirection, 5000);
 	}
 });
 
 })();
-*/
+
 </script>

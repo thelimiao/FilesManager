@@ -176,13 +176,22 @@ function remove_directory($name){
   }
 }
 
-// Fonction qui permet de supprimer un fichier (à finir)
-function remove_file($name, $directory){
-  $id = trim($name, "'");
-  if(file_exists('directory/'.$id)){
-    if(!rmdir('directory/'.$id)){
-      $_SESSION['flash']['danger'] = "Impossible de supprimer le dossier, vérifier les permissions du serveur web sur l'application";
-      redirection_link('directory','admin');
+// Fonction qui permet de supprimer un fichier (côté utilisateur)
+function remove_file($idFile){
+  if(!isset($pdo)){
+      global $pdo;
+  }
+  $id = $pdo->quote($idFile);
+  $req = $pdo->query("SELECT * FROM files WHERE id = $id");
+  while($data = $req->fetch()){
+    $fileName = $data->name;
+    $dirNumber = $data->id_directory;
+  }
+
+  if(file_exists('admin/directory/'.$dirNumber.'/'.$fileName)){
+    if(!unlink('admin/directory/'.$dirNumber.'/'.$fileName)){
+      $_SESSION['flash']['danger'] = "Impossible de supprimer le fichier, vérifier les permissions du serveur web sur l'application";
+      redirection_link('index');
       die();
     }
   }
