@@ -26,7 +26,7 @@
     <br/><br/>
     <div class="jumbotron">
 
-      <h1 class="text-center">Files Manager</h1>
+      <h1 class="text-center"><strong>Files Manager</strong></h1>
       <h2>Identifiez-vous :</h2>
 
       <?php if(!empty($errors)): ?>
@@ -51,7 +51,7 @@
           <label class="control-label" for="password">Mot de passe</label>
           <input class="form-control" id="password" name="password" type="password">
         <br/>
-          <input type="submit" class="btn btn-success" value="Se connecter"/>
+          <button type="submit" class="btn btn-success" ><span class="glyphicon glyphicon-log-in"></span> Se connecter</button>
 
         </div>
       </form>

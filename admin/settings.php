@@ -13,7 +13,7 @@
 
         <ul class="nav nav-pills pull-right">
           <li><a href="../index.php"><span class="glyphicon glyphicon-home"></span> Retourner à l'accueil</a></li>
-          <li><a href="../logout.php"><span class="glyphicon glyphicon-off"></span> Se déconnecter</a></li>
+          <li><a href="../logout.php"><span class="glyphicon glyphicon-log-out"></span> Se déconnecter</a></li>
         </ul>
 
       </nav>

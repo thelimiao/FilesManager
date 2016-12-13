@@ -32,7 +32,7 @@
 
         <ul class="nav nav-pills pull-right">
           <li><a href="../index.php"><span class="glyphicon glyphicon-home"></span> Retourner à l'accueil</a></li>
-          <li><a href="../logout.php"><span class="glyphicon glyphicon-off"></span> Se déconnecter</a></li>
+          <li><a href="../logout.php"><span class="glyphicon glyphicon-log-out"></span> Se déconnecter</a></li>
         </ul>
 
       </nav>
@@ -62,13 +62,18 @@
               $req2 = $pdo->query("SELECT * FROM ranks WHERE id = $rank");
               $result = $req2->fetch();
 
+              if($data->username == $_SESSION['auth']->username){
+                $disabled = 'disabled';
+              }else{
+                $disabled = '';
+              }
               echo '<tr>
                       <td>'.$data->username.'</td>
                       <td>'.$result->name.'</td>
                       <td>
                         <a href="update.php?id='.$data->id.'" class="btn btn-warning input-margin"><span class="glyphicon glyphicon-cog"></span> Editer le compte</a>
                         <a href="access.php?id='.$data->id.'" class="btn btn-info input-margin"><span class="glyphicon glyphicon-folder-open"></span> &nbsp;Gérer ses répertoires</a>
-                        <a href="users.php?delete='.$data->id.'&'.csrf().'" class="btn btn-danger input-margin" onclick="return confirm(\'Êtes vous sur ?\');"><span class="glyphicon glyphicon-trash"></span> Supprimer l\'utilisateur</a>
+                        <a href="users.php?delete='.$data->id.'&'.csrf().'" class="btn btn-danger input-margin '.$disabled.'" onclick="return confirm(\'Êtes vous sur ?\');"><span class="glyphicon glyphicon-trash"></span> Supprimer l\'utilisateur</a>
                       </td>
                     </tr>';
             }

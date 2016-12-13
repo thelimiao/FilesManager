@@ -84,7 +84,7 @@ $page = "index";
             echo '<li><a href="admin/index.php"><span class="glyphicon glyphicon-user"></span> Panel admin</a></li>';
           }
           ?>
-          <li><a href="logout.php"><span class="glyphicon glyphicon-off"></span> Se déconnecter</a></li>
+          <li><a href="logout.php"><span class="glyphicon glyphicon-log-out"></span> Se déconnecter</a></li>
         </ul>
 
       </nav>
@@ -94,11 +94,11 @@ $page = "index";
 
     <div class="jumbotron">
 
-      <h1 class="text-center">Files Manager</h1>
+      <h1 class="text-center"><strong>Files Manager</strong></h1>
 
       <br/><br/>
 
-      <h2>Formulaire d'upload :</h2>
+      <h2><strong>Formulaire d'upload :</strong></h2>
       <form class="form-group" id="uploadForm" action="index.php" method="post" enctype=multipart/form-data>
 
           <input id="file" type="file" name="file" class="file">
@@ -120,8 +120,10 @@ $page = "index";
       <span id="alertFile" class="label label-danger"><strong>Fichier trop lourd, la taille max est de 100MO !</strong></span>
 
       <div id="status"></div>
+      <hr>
+      <h2><strong>Mes répertoires :</strong></h2>
       <br/>
-      <p>Votre dossier personnel :</p>
+      <p>Mon répertoire personnel :</p>
       <table class="table table-striped">
         <thead>
           <tr>
@@ -134,7 +136,8 @@ $page = "index";
           <?php
 
             $directory_id = $pdo->quote($directory);
-            $req = $pdo->query("SELECT * FROM files WHERE id_directory = $directory_id");
+            $req = $pdo->query("SELECT * FROM files WHERE id_directory = $directory_id ORDER BY id DESC");
+            $type = 'folder';
             while($data = $req->fetch()){
 
               echo '<tr>
@@ -145,10 +148,21 @@ $page = "index";
                 $extension = explode(".", $data->name);
                 $count = count($extension);
                 $number = $count-1;
-                if($extension[$number] === 'mp4'){
+                if($extension[$number] == 'mp4' || $extension[$number] == 'webm' || $extension[$number] == 'mkv'){
                   echo '<a href="#" class="btn btn-success dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                          <li><a href="#"><span class="glyphicon glyphicon-facetime-video"></span> Regarder en streaming</a></li>
+                          <li><a href="file.php?id='.$data->id.'&type='.$type.'"><span class="glyphicon glyphicon-film"></span> Regarder en streaming</a></li>
+                        </ul>';
+                }elseif($extension[$number] == 'mp3' || $extension[$number] == 'ogg' || $extension[$number] == 'wav'){
+                  echo '<a href="#" class="btn btn-success dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                          <li><a href="file.php?id='.$data->id.'&type='.$type.'"><span class="glyphicon glyphicon-music"></span> Jouer le son</a></li>
+                        </ul>';
+                }elseif($extension[$number] == 'jpg' || $extension[$number] == 'jpeg' || $extension[$number] == 'png' || $extension[$number] == 'gif'
+                 || $extension[$number] == 'bmp' || $extension[$number] == 'svg' || $extension[$number] == 'icon'){
+                  echo '<a href="#" class="btn btn-success dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                          <li><a href="file.php?id='.$data->id.'&type='.$type.'" target="_blank"><span class="glyphicon glyphicon-picture"></span> Obtenir l\'url</a></li>
                         </ul>';
                 }
                 echo '</div>

@@ -197,4 +197,16 @@ function remove_file($idFile){
   }
 }
 
+// Fonction qui converti une valeur MO en Octets
+function moConvert($value){
+  $result = $value * 1048576;
+  return $result;
+}
+
+// Fonction qui converti une valeur Go en Octets
+function goConvert($value){
+  $result = $value * 1073741824;
+  return $result;
+}
+
 ?>
