@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.5.1
--- https://www.phpmyadmin.net/
+-- version 4.0.10deb1
+-- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Generation Time: Dec 04, 2016 at 05:32 PM
--- Server version: 10.1.19-MariaDB
--- PHP Version: 7.0.13
+-- Client: localhost
+-- Généré le: Mar 13 Décembre 2016 à 17:52
+-- Version du serveur: 5.5.53-0ubuntu0.14.04.1
+-- Version de PHP: 5.5.9-1ubuntu4.20
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,39 +14,46 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 
 --
--- Database: `filesmanager`
+-- Base de données: `filesmanager`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `access`
+-- Structure de la table `access`
 --
 
-CREATE TABLE `access` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `access` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_user` int(11) NOT NULL,
   `id_directory` int(11) NOT NULL,
-  ` law_full` tinyint(4) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `folder_directory` tinyint(4) DEFAULT NULL,
+  `link_directory` tinyint(4) DEFAULT NULL,
+  `full` tinyint(4) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_user` (`id_user`),
+  KEY `id_directory` (`id_directory`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `directory`
+-- Structure de la table `directory`
 --
 
-CREATE TABLE `directory` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `directory` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  `id_user` int(11) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `id_user` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_user` (`id_user`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=26 ;
 
 --
--- Dumping data for table `directory`
+-- Contenu de la table `directory`
 --
 
 INSERT INTO `directory` (`id`, `name`, `id_user`) VALUES
@@ -55,68 +62,76 @@ INSERT INTO `directory` (`id`, `name`, `id_user`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `files`
+-- Structure de la table `files`
 --
 
-CREATE TABLE `files` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `files` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  `id_directory` int(11) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `id_directory` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_directory` (`id_directory`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=38 ;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `internal`
+-- Structure de la table `internal`
 --
 
-CREATE TABLE `internal` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `internal` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `location` varchar(255) NOT NULL,
-  `id_user` int(11) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `id_user` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_user` (`id_user`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `logs`
+-- Structure de la table `logs`
 --
 
-CREATE TABLE `logs` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `logs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `message` varchar(255) NOT NULL,
   `username` varchar(255) NOT NULL,
   `ip` varchar(255) NOT NULL,
-  `date` datetime NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `date` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `permissions`
+-- Structure de la table `permissions`
 --
 
-CREATE TABLE `permissions` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `permissions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `id_rank` int(11) NOT NULL,
   `law_users` tinyint(4) NOT NULL,
-  `law_directory` tinyint(4) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `law_directory` tinyint(4) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_rank` (`id_rank`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `ranks`
+-- Structure de la table `ranks`
 --
 
-CREATE TABLE `ranks` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+CREATE TABLE IF NOT EXISTS `ranks` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
--- Dumping data for table `ranks`
+-- Contenu de la table `ranks`
 --
 
 INSERT INTO `ranks` (`id`, `name`) VALUES
@@ -126,126 +141,25 @@ INSERT INTO `ranks` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Structure de la table `users`
 --
 
-CREATE TABLE `users` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `id_rank` int(11) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `id_rank` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_rank` (`id_rank`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=29 ;
 
 --
--- Dumping data for table `users`
+-- Contenu de la table `users`
 --
 
 INSERT INTO `users` (`id`, `username`, `password`, `id_rank`) VALUES
 (25, 'admin', '$2y$10$sHLvx99FTPlUwDD5O5hbceauTsyfoq/2fyoXRwTiOFE0RFZavhrMy', 1);
 
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `access`
---
-ALTER TABLE `access`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_user` (`id_user`),
-  ADD KEY `id_directory` (`id_directory`);
-
---
--- Indexes for table `directory`
---
-ALTER TABLE `directory`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_user` (`id_user`);
-
---
--- Indexes for table `files`
---
-ALTER TABLE `files`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_directory` (`id_directory`);
-
---
--- Indexes for table `internal`
---
-ALTER TABLE `internal`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_user` (`id_user`);
-
---
--- Indexes for table `logs`
---
-ALTER TABLE `logs`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `permissions`
---
-ALTER TABLE `permissions`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_rank` (`id_rank`);
-
---
--- Indexes for table `ranks`
---
-ALTER TABLE `ranks`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_rank` (`id_rank`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `access`
---
-ALTER TABLE `access`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `directory`
---
-ALTER TABLE `directory`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
---
--- AUTO_INCREMENT for table `files`
---
-ALTER TABLE `files`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `internal`
---
-ALTER TABLE `internal`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `logs`
---
-ALTER TABLE `logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
---
--- AUTO_INCREMENT for table `permissions`
---
-ALTER TABLE `permissions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `ranks`
---
-ALTER TABLE `ranks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
