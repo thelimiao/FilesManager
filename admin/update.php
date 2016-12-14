@@ -28,7 +28,7 @@
         $req->execute([$_POST['username']]);
         $user = $req->fetch();
         if(!empty($user)){
-          if($user->id != $id){
+          if($user->id != $_GET['id']){
             $errors['username'] = "Ce nom d'utilisateur est déjà  pris";
           }
         }
@@ -52,7 +52,7 @@
           $req = $pdo->prepare("UPDATE users SET username = ?, id_rank = ? WHERE id = ?");
           $req->execute([$_POST['username'], $_POST['rank'], $id]);
         }
-        $_SESSION['flash']['success'] = 'Le compte a bien était créer';
+        $_SESSION['flash']['success'] = 'Le compte a bien était enregistré';
         header('location: index.php');
         exit();
       }

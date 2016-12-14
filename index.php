@@ -98,28 +98,40 @@ $page = "index";
 
       <br/><br/>
 
-      <h2><strong>Formulaire d'upload :</strong></h2>
-      <form class="form-group" id="uploadForm" action="index.php" method="post" enctype=multipart/form-data>
+      <?php
+        $id_user = $pdo->quote($_SESSION['auth']->id);
+        $req = $pdo->query("SELECT * FROM directory WHERE id_user = $id_user");
+        $dir_existe = 0;
+        while($data = $req->fetch()){
+          $dir_existe = 1;
+          echo '<h2><strong>Formulaire d\'upload :</strong></h2>
+          <form class="form-group" id="uploadForm" action="index.php" method="post" enctype=multipart/form-data>
 
-          <input id="file" type="file" name="file" class="file">
-          <div class="input-group col-xs-12">
-            <input type="text" class="form-control" name="file" disabled placeholder="Uploader un fichier">
-            <span class="input-group-btn">
-              <button class="browse btn btn-primary" type="button"><i class="glyphicon glyphicon-file"></i> Choisir un fichier</button>
-            </span>
-          </div>
-          <?php echo csrfInput(); ?>
-          <br/>
-          <div id="thebar" class="progress progress-striped active">
-            <div class="progress-bar" style="width: 0%">0%</div>
-          </div>
+              <input id="file" type="file" name="file" class="file">
+              <div class="input-group col-xs-12">
+                <input type="text" class="form-control" name="file" disabled placeholder="Uploader un fichier">
+                <span class="input-group-btn">
+                  <button class="browse btn btn-primary" type="button"><i class="glyphicon glyphicon-file"></i> Choisir un fichier</button>
+                </span>
+              </div>
+              <?php echo csrfInput(); ?>
+              <br/>
+              <div id="thebar" class="progress progress-striped active">
+                <div class="progress-bar" style="width: 0%">0%</div>
+              </div>
 
-          <span id="alertFile" class="label label-danger"><strong>Fichier trop lourd, veuillez en choisir un autre !</strong></span>
-          <div id="status"></div>
-          <br/>
+              <span id="alertFile" class="label label-danger"><strong>Fichier trop lourd, veuillez en choisir un autre !</strong></span>
+              <div id="status"></div>
+              <br/>
 
-          <button type="submit" id="btnSubmit" class="btn btn-success"><span class="glyphicon glyphicon-open"></span> Uploader</button>
-      </form>
+              <button type="submit" id="btnSubmit" class="btn btn-success"><span class="glyphicon glyphicon-open"></span> Uploader</button>
+          </form>';
+        }
+
+        if($dir_existe == 0){
+          echo '<h2 class="text-center"><strong>Vous ne disposez pas de répertoire personnel</strong></h2>';
+        }
+      ?>
 
       <hr>
       <h2><strong>Répertoire personnel :</strong></h2>
@@ -137,7 +149,9 @@ $page = "index";
             $directory_id = $pdo->quote($directory);
             $req = $pdo->query("SELECT * FROM files WHERE id_directory = $directory_id ORDER BY id DESC");
             $type = 'folder';
+            $existe = 0;
             while($data = $req->fetch()){
+              $existe = 1;
 
               echo '<tr>
                       <td>'.$data->name.'</td>
@@ -172,6 +186,11 @@ $page = "index";
                 echo '</div>
                       <a href="index.php?delete='.$data->id.'&'.csrf().'" class="btn btn-danger input-margin" onclick="return confirm(\'Êtes vous sur ?\');"><span class="glyphicon glyphicon-trash"></span> Supprimer</a>
                       </td>
+                    </tr>';
+            }
+            if($existe == 0){
+              echo '<tr class="text-center">
+                      <td colspan="2">Aucun fichier</td>
                     </tr>';
             }
 

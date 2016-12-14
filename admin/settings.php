@@ -23,11 +23,11 @@
       <form class="form-group" action="" method="post">
         <br/>
         <p>Gestion des uploads :</p>
-
+          <p>Modifier la taille max des fichiers uploadés.</p>
           <label for="select" class="control-label">Format de taille :</label>
           <select class="form-control" id="select" name="format">
-            <option>Go</option>
-            <option>Mo</option>
+            <option value="mo">Mo</option>
+            <option value="go">Go</option>
           </select>
           <br/>
           <label class="control-label" for="maxSize">Taille d'upload max :</label>

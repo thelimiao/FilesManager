@@ -160,8 +160,8 @@ function clear_directory($name){
     if($handle = opendir('../directory/'.$id)){
       while(false !== ($entry = readdir($handle))){
         if($entry != "." && $entry != ".."){
-          if(!isset($entry)){
-            unlink('directory'.$id.'/'.$entry);
+          if(isset($entry)){
+            unlink('../directory/'.$id.'/'.$entry);
           }
         }
       }
@@ -219,6 +219,11 @@ function moConvert($value){
 function goConvert($value){
 
   $result = $value * 1073741824;
+  return $result;
+}
+
+function octetConvertToMo($value){
+  $result = $value / 1048576;
   return $result;
 }
 
