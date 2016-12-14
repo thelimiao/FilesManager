@@ -60,8 +60,9 @@
           <?php
 
             $req = $pdo->query('SELECT * FROM directory');
-            $number = 0;
+            $existe_directory = 0;
             while($data = $req->fetch()){
+              $existe_directory++;
               $user_id = $pdo->quote($data->id_user);
               $req2 = $pdo->query("SELECT username FROM users WHERE id = $user_id LIMIT 1");
               $result = $req2->fetch();
@@ -74,7 +75,11 @@
                         <a href="directory.php?delete_directory='.$data->id.'&'.csrf().'" class="btn btn-danger input-margin" onclick="return confirm(\'Êtes vous sur ?\');"><span class="glyphicon glyphicon-trash"></span> Supprimer le répertoire</a>
                       </td>
                     </tr>';
-              $number++;
+            }
+            if($existe_directory == 0){
+              echo '<tr class="text-center">
+                      <td colspan="3">Aucun répertoire</td>
+                    </tr>';
             }
 
           ?>
@@ -99,7 +104,9 @@
 
             $req = $pdo->query('SELECT * FROM internal');
             $number = 0;
+            $existe_internal = 0;
             while($data = $req->fetch()){
+              $existe_internal++;
 
               echo '<tr>
                       <td>'.$data->name.'</td>
@@ -110,6 +117,11 @@
                       </td>
                     </tr>';
               $number++;
+            }
+            if($existe_internal == 0){
+              echo '<tr class="text-center">
+                      <td colspan="3">Aucun répertoire</td>
+                    </tr>';
             }
 
           ?>

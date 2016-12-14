@@ -3,6 +3,18 @@
   require_once 'inc/header.php';
   is_admin();
 
+  // On récupère les informations du répertoire selectionné pour pré-remplir le formulaire
+  if(isset($_GET['id']) && preg_match("/^[0-9]+$/i",$_GET['id'])){
+      $id = $pdo->quote($_GET['id']);
+      $req = $pdo->query("SELECT * FROM internal WHERE id = $id");
+      $result_internal = $req->fetch();
+      if(empty($result_internal)){
+        $_SESSION['flash']['danger'] = "Le répertoire selectionné n'existe pas";
+        header('location: directory.php');
+        exit();
+      }
+  }
+
   if(!empty($_POST)){
     $errors = array();
 
@@ -21,20 +33,33 @@
     $req = $pdo->prepare("SELECT * FROM internal WHERE location = ?");
     $req->execute([$_POST['location']]);
     $data = $req->fetch();
-    if(!empty($data)){
-      $errors['name'] = "Ce répertoire est déjà utilisé";
+    if(isset($_GET['id'])){
+      if(!empty($data) && $data->id != $_GET['id']){
+        $errors['name'] = "Ce répertoire est déjà utilisé";
+      }
+    }else{
+      if(!empty($data)){
+        $errors['name'] = "Ce répertoire est déjà utilisé";
+      }
     }
 
 
     if(empty($errors)){
       if(checkCsrf() === true){
-        $req = $pdo->prepare("INSERT INTO internal SET name = ?, location = ?");
-        $req->execute([$_POST['name'], $_POST['location']]);
-        $id_directory = $pdo->lastInsertId();
-        new_directory($id_directory);
-        $_SESSION['flash']['success'] = 'Le répertoire a bien était enregistré';
-        header('location: directory.php');
-        exit();
+        if(isset($_GET['id'])){
+          $req = $pdo->prepare("UPDATE internal SET name = ?, location = ? WHERE id = ?");
+          $req->execute([$_POST['name'], $_POST['location'], $_GET['id']]);
+          $_SESSION['flash']['success'] = 'Les modifications du répertoire a bien était enregistrées';
+          header('location: directory.php');
+          exit();
+        }else{
+          $req = $pdo->prepare("INSERT INTO internal SET name = ?, location = ?");
+          $req->execute([$_POST['name'], $_POST['location']]);
+          $id_directory = $pdo->lastInsertId();
+          $_SESSION['flash']['success'] = 'Le répertoire a bien était enregistré';
+          header('location: directory.php');
+          exit();
+        }
       }
     }
   }
@@ -52,7 +77,13 @@
           </ul>
 
         </nav>
-        <h3>Ajouter un répertoire :</h3>
+        <?php
+          if(isset($_GET['id'])){
+            echo '<h3>Editier le répertoire :</h3>';
+          }else{
+            echo '<h3>Ajouter un répertoire :</h3>';
+          }
+        ?>
       </div>
 
       <div class="jumbotron">
@@ -74,13 +105,19 @@
           <div class="form-group">
 
             <label class="control-label" for="name">Nom du répertoire</label>
-            <input class="form-control" id="name" name="name" type="text">
+            <input class="form-control" id="name" name="name" type="text" value="<?php if(!empty($result_internal)){echo $result_internal->name;}?>">
           <br/>
             <label class="control-label" for="location">Chemin du répertoire</label>
-            <input class="form-control" id="location" name="location" type="text">
+            <input class="form-control" id="location" name="location" type="text" value="<?php if(!empty($result_internal)){echo $result_internal->location;}?>">
             <?php echo csrfInput(); ?>
           <br/>
-            <input type="submit" class="btn btn-success" value="Ajouter le répertoire"/>
+          <?php
+            if(isset($_GET['id'])){
+              echo '<button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Enregistrer</button>';
+            }else{
+              echo '<button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Ajouter le répertoire</button>';
+            }
+          ?>
 
           </div>
         </form>

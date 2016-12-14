@@ -117,7 +117,7 @@
             </select>
             <?php echo csrfInput(); ?>
           <br/>
-            <input type="submit" class="btn btn-success" value="Enregistrer"/>
+            <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Enregistrer</button>
 
           </div>
         </form>

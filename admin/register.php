@@ -107,7 +107,7 @@
           </div>
             <?php echo csrfInput(); ?>
           <br/>
-            <input type="submit" class="btn btn-success" value="Créer l'utilisateur"/>
+            <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Créer l'utilisateur</button>
 
           </div>
         </form>
