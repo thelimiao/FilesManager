@@ -98,7 +98,7 @@
           <div class="form-group">
 
             <label class="control-label" for="name">Nom du répertoire</label>
-            <input class="form-control" id="name" name="name" type="text" value="<?php if(!empty($result_directory)){echo $result_directory->name;}?>">
+            <input class="form-control" id="name" name="name" type="text" placeholder="nom" value="<?php if(!empty($result_directory)){echo $result_directory->name;}?>">
           <br/>
             <label class="control-label" for="user">Propriétaire du répertoire</label>
             <select class="form-control" id="user" name="user">
@@ -128,6 +128,7 @@
               echo '<button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Créer le répertoire</button>';
             }
           ?>
+          <a href="directory.php" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Annuler</a>
 
           </div>
         </form>

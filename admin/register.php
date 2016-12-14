@@ -77,7 +77,7 @@
           <div class="form-group">
 
             <label class="control-label" for="username">Nom d'utilisateur</label>
-            <input class="form-control" id="username" name="username" type="text">
+            <input class="form-control" id="username" name="username" type="text" placeholder="nom">
           <br/>
             <label class="control-label" for="password">Mot de passe</label>
             <input class="form-control" id="password" name="password" type="password">
@@ -108,6 +108,7 @@
             <?php echo csrfInput(); ?>
           <br/>
             <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Créer l'utilisateur</button>
+            <a href="users.php" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Annuler</a>
 
           </div>
         </form>

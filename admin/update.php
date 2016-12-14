@@ -118,6 +118,7 @@
             <?php echo csrfInput(); ?>
           <br/>
             <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Enregistrer</button>
+            <a href="users.php" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Annuler</a>
 
           </div>
         </form>

@@ -5,6 +5,7 @@ $page = "index";
   $rank = check_rank($_SESSION['auth']->id_rank);
   $directory = check_directory($_SESSION['auth']->id);
 
+  $maxUploadSize = maxUploadSize();
 
   if(isset($_GET['delete'])){
     checkCsrf();
@@ -26,7 +27,7 @@ $page = "index";
     checkCsrf();
 
     // Vérification de la taille du fichier
-    if($_FILES["file"]["size"] > 104857600){
+    if($_FILES["file"]["size"] > $maxUploadSize){
       $_SESSION['flash']['warning'] = 'Le fichier est trop grand';
       header('location: index.php');
       exit();
@@ -211,6 +212,8 @@ $page = "index";
 <script src="asset/js/jquery.ajax.js"></script>
 <script type="text/javascript">
 
+var maxUploadSize = <?= $maxUploadSize ?>;
+
 $('div.progress').hide();
 $('span#alertFile').hide();
 $("button#btnSubmit").hide();
@@ -221,7 +224,7 @@ $(document).on('click', '.browse', function(){
 });
 $(document).on('change', '.file', function(){
   $(this).parent().find('.form-control').val($(this).val().replace(/C:\\fakepath\\/i, ''));
-  if(findSize() > 104857600){
+  if(findSize() > maxUploadSize){
     $('span#alertFile').show();
     $('div.progress').hide();
 

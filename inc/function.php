@@ -222,9 +222,20 @@ function goConvert($value){
   return $result;
 }
 
+// Fonction qui converti une valeur Octets en Mo
 function octetConvertToMo($value){
   $result = $value / 1048576;
   return $result;
+}
+
+// Fonction qui retourne la valeur en octet la taille d'upload max présent en base de données
+function maxUploadSize(){
+  if(!isset($pdo)){
+      global $pdo;
+  }
+  $req = $pdo->query("SELECT upload_size FROM settings");
+  $data = $req->fetch();
+  return intval($data->upload_size);
 }
 
 ?>

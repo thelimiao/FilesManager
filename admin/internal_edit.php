@@ -105,10 +105,10 @@
           <div class="form-group">
 
             <label class="control-label" for="name">Nom du répertoire</label>
-            <input class="form-control" id="name" name="name" type="text" value="<?php if(!empty($result_internal)){echo $result_internal->name;}?>">
+            <input class="form-control" id="name" name="name" type="text" placeholder="nom" value="<?php if(!empty($result_internal)){echo $result_internal->name;}?>">
           <br/>
-            <label class="control-label" for="location">Chemin du répertoire</label>
-            <input class="form-control" id="location" name="location" type="text" value="<?php if(!empty($result_internal)){echo $result_internal->location;}?>">
+            <label class="control-label" for="location">Chemin absolut du répertoire</label>
+            <input class="form-control" id="location" name="location" type="text" placeholder="/home/user/www/" value="<?php if(!empty($result_internal)){echo $result_internal->location;}?>">
             <?php echo csrfInput(); ?>
           <br/>
           <?php
@@ -118,6 +118,7 @@
               echo '<button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Ajouter le répertoire</button>';
             }
           ?>
+          <a href="directory.php" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Annuler</a>
 
           </div>
         </form>
