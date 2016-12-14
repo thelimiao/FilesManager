@@ -3,7 +3,7 @@
   require_once 'inc/header.php';
   is_admin();
 
-  if(isset($_GET['delete'])){
+  if(isset($_GET['delete']) && preg_match("/^[0-9]+$/i",$_GET['delete'])){
     if(checkCsrf() === true){
       $id = $pdo->quote($_GET['delete']);
       $pdo->query("DELETE FROM users WHERE id = $id");
@@ -72,7 +72,6 @@
                       <td>'.$result->name.'</td>
                       <td>
                         <a href="update.php?id='.$data->id.'" class="btn btn-warning input-margin"><span class="glyphicon glyphicon-cog"></span> Editer le compte</a>
-                        <a href="access.php?id='.$data->id.'" class="btn btn-info input-margin"><span class="glyphicon glyphicon-folder-open"></span> &nbsp;Gérer ses répertoires</a>
                         <a href="users.php?delete='.$data->id.'&'.csrf().'" class="btn btn-danger input-margin '.$disabled.'" onclick="return confirm(\'Êtes vous sur ?\');"><span class="glyphicon glyphicon-trash"></span> Supprimer l\'utilisateur</a>
                       </td>
                     </tr>';

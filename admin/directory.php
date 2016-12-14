@@ -2,7 +2,7 @@
   $page = "directory";
   require_once 'inc/header.php';
 
-  if(isset($_GET['delete_directory'])){
+  if(isset($_GET['delete_directory']) && preg_match("/^[0-9]+$/i",$_GET['delete_directory'])){
     if(checkCsrf() === true){
       $id = $pdo->quote($_GET['delete_directory']);
       clear_directory($id);
@@ -14,10 +14,11 @@
     }
   }
 
-  if(isset($_GET['delete_internal'])){
+  if(isset($_GET['delete_internal']) && preg_match("/^[0-9]+$/i",$_GET['delete_internal'])){
     if(checkCsrf() === true){
       $id = $pdo->quote($_GET['delete_internal']);
       $pdo->query("DELETE FROM internal WHERE id = $id");
+      $pdo->query("DELETE FROM access WHERE id_directory = $id AND link_directory = 1");
       $_SESSION['flash']['success'] = 'Le répertoire a bien était retiré';
       header('Location: directory.php');
       exit();
@@ -113,6 +114,7 @@
                       <td>'.$data->location.'</td>
                       <td>
                         <a href="internal_edit.php?id='.$data->id.'" class="btn btn-warning input-margin"><span class="glyphicon glyphicon-cog"></span> &nbsp;Editer</a>
+                        <a href="access.php?id='.$data->id.'" class="btn btn-info input-margin"><span class="glyphicon glyphicon-lock"></span> Gérer les accès</a>
                         <a href="directory.php?delete_internal='.$data->id.'&'.csrf().'" class="btn btn-danger input-margin" onclick="return confirm(\'Êtes vous sur ?\');"><span class="glyphicon glyphicon-trash"></span> Supprimer le lien</a>
                       </td>
                     </tr>';

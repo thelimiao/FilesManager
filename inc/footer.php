@@ -1,5 +1,5 @@
       <footer class="footer">
-        <p class="text-center">Développé par <a href="http://simon-micheneau.fr/" target="_blank">Simon Micheneau</a></p>
+        <p class="text-center">Files Manager v0.1 - Développé par <a href="http://simon-micheneau.fr/" target="_blank">Simon Micheneau</a></p>
       </footer>
 
   <!-- Bootstrap core JavaScript -->

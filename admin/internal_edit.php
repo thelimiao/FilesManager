@@ -25,13 +25,19 @@
     if(empty($_POST['location'])){
         $errors['name'] = "Vous n'avez pas défini le chemin de votre répertoire";
     }else{
-      if(!file_exists($_POST['location']) || !is_dir($_POST['location'])){
+      $explode = explode("/", $_POST['location']);
+      $count = count($explode);
+      if(empty($explode[$count-1])){
+        $explode = array_slice($explode, 0, $count-1);
+      }
+      $location = implode("/",$explode)."/";
+      if(!file_exists($location) || !is_dir($location)){
         $errors['name'] = "Le chemin du répertoire n'est pas accéssible";
       }
     }
 
     $req = $pdo->prepare("SELECT * FROM internal WHERE location = ?");
-    $req->execute([$_POST['location']]);
+    $req->execute([$location]);
     $data = $req->fetch();
     if(isset($_GET['id'])){
       if(!empty($data) && $data->id != $_GET['id']){
@@ -48,13 +54,13 @@
       if(checkCsrf() === true){
         if(isset($_GET['id'])){
           $req = $pdo->prepare("UPDATE internal SET name = ?, location = ? WHERE id = ?");
-          $req->execute([$_POST['name'], $_POST['location'], $_GET['id']]);
+          $req->execute([$_POST['name'], $location, $_GET['id']]);
           $_SESSION['flash']['success'] = 'Les modifications du répertoire a bien était enregistrées';
           header('location: directory.php');
           exit();
         }else{
           $req = $pdo->prepare("INSERT INTO internal SET name = ?, location = ?");
-          $req->execute([$_POST['name'], $_POST['location']]);
+          $req->execute([$_POST['name'], $location]);
           $id_directory = $pdo->lastInsertId();
           $_SESSION['flash']['success'] = 'Le répertoire a bien était enregistré';
           header('location: directory.php');

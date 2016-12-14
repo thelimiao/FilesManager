@@ -1,5 +1,5 @@
 <?php
-  $page = "register";
+  $page = "users";
   require_once 'inc/header.php';
   is_admin();
 

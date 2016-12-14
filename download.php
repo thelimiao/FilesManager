@@ -2,7 +2,7 @@
   require_once 'inc/database.php';
   require_once 'inc/function.php';
 
-  if(isset($_GET['id'])){
+  if(isset($_GET['id']) && preg_match("/^[0-9]+$/i",$_GET['id'])){
     $id = $pdo->quote($_GET['id']);
     $req = $pdo->query("SELECT * FROM files WHERE id = $id");
     $fileDetect = false;

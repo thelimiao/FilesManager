@@ -5,7 +5,7 @@
   $rank = check_rank($_SESSION['auth']->id_rank);
   $directory = check_directory($_SESSION['auth']->id);
 
-  if(isset($_GET['id'])){
+  if(isset($_GET['id']) && preg_match("/^[0-9]+$/i",$_GET['id'])){
 
     if(isset($_GET['type'])){
 

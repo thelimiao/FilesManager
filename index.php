@@ -1,5 +1,5 @@
 <?php
-$page = "index";
+  $page = "index";
   require_once 'inc/header.php';
   is_authenticated();
   $rank = check_rank($_SESSION['auth']->id_rank);
@@ -7,7 +7,7 @@ $page = "index";
 
   $maxUploadSize = maxUploadSize();
 
-  if(isset($_GET['delete'])){
+  if(isset($_GET['delete']) && preg_match("/^[0-9]+$/i",$_GET['delete'])){
     checkCsrf();
 
     remove_file($_GET['delete']);
@@ -75,7 +75,8 @@ $page = "index";
       <nav>
 
         <ul class="nav nav-pills pull-left">
-          <li><a href="#"><span class="glyphicon glyphicon-folder-open"></span> &nbsp;Mes dossiers partagés</a></li>
+          <li><a href="index.php"><span class="glyphicon glyphicon-folder-open"></span> &nbsp;Mon répertoire personnel</a></li>
+          <li><a href="directory.php"><span class="glyphicon glyphicon-folder-open"></span> &nbsp;Mes répertoires partagés</a></li>
         </ul>
 
         <ul class="nav nav-pills pull-right">
@@ -136,6 +137,11 @@ $page = "index";
 
       <hr>
       <h2><strong>Répertoire personnel :</strong></h2>
+      <?php
+      if(!empty($directory)){
+        echo '<a href="#" class="btn btn-info disabled"><span class="glyphicon glyphicon-lock"></span> Gérer les accès</a>';
+      }
+      ?>
       <table class="table table-striped">
         <thead>
           <tr>

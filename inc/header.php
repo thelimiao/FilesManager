@@ -29,6 +29,7 @@
     <?php if(isset($_SESSION['flash'])): ?>
         <?php foreach($_SESSION['flash'] as $type => $message): ?>
             <div class="alert text-center alert-<?= $type; ?>">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
                 <?= $message; ?>
             </div>
         <?php endforeach; ?>

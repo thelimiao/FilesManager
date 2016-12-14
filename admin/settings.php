@@ -59,8 +59,6 @@
           <label class="control-label" for="maxSize">Taille d'upload max :</label>
           <input class="form-control" id="maxSize" value="<?php echo octetConvertToMo($settings->upload_size); ?>" type="number" name="size">
 
-          <hr>
-
           <?php echo csrfInput(); ?>
           <br/>
           <button type="submit" id="btnSubmit" class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Enregistrer</button>
