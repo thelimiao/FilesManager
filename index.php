@@ -107,7 +107,7 @@
         while($data = $req->fetch()){
           $dir_existe = 1;
           echo '<h2><strong>Formulaire d\'upload :</strong></h2>
-          <form class="form-group" id="uploadForm" action="index.php" method="post" enctype=multipart/form-data>
+          <form class="form-group" id="uploadForm" action="" method="post" enctype=multipart/form-data>
 
               <input id="file" type="file" name="file" class="file">
               <div class="input-group col-xs-12">
@@ -164,7 +164,7 @@
                       <td>'.$data->name.'</td>
                       <td>
                       <div class="btn-group">
-                        <a href="download.php?id='.$data->id.'" class="btn btn-success"><span class="glyphicon glyphicon-save"></span> Télécharger le fichier</a>';
+                        <a href="download.php?id='.$data->id.'&type='.$type.'" class="btn btn-success"><span class="glyphicon glyphicon-save"></span> Télécharger le fichier</a>';
                 $extension = explode(".", $data->name);
                 $count = count($extension);
                 $number = $count-1;
@@ -230,6 +230,7 @@ $(document).on('click', '.browse', function(){
 });
 $(document).on('change', '.file', function(){
   $(this).parent().find('.form-control').val($(this).val().replace(/C:\\fakepath\\/i, ''));
+
   if(findSize() > maxUploadSize){
     $('span#alertFile').show();
     $('div.progress').hide();
