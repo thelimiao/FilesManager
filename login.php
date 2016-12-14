@@ -2,21 +2,31 @@
   $page = "login";
   require_once 'inc/header.php';
 
+  if(isset($_SESSION['auth'])){
+    header('location: index.php');
+    exit();
+  }
+
   if(!empty($_POST) && !empty($_POST['username']) && !empty($_POST['password'])){
     $req = $pdo->prepare('SELECT * FROM users WHERE (username = :username)');
     $req->execute(['username' => $_POST['username']]);
     $user = $req->fetch();
 
-        if(password_verify($_POST['password'], $user->password)){
-            $_SESSION['auth'] = $user;
-            $_SESSION['flash']['success'] = 'Vous êtes maintenant connecté';
-            redirection_link('index');
-            exit();
-        }else{
-            $_SESSION['flash']['danger'] = "Identifiant ou mot de passe incorrecte";
-            redirection_link('login');
-            exit();
-        }
+      if(password_verify($_POST['password'], $user->password)){
+
+        $remember_token = str_random(250);
+        $pdo->prepare('UPDATE users SET remember_token = ? WHERE id = ?')->execute([$remember_token, $user->id]);
+        setcookie('remember', $user->id . '==' . $remember_token . sha1($user->id . 'adtr'), time() + 60 * 60 * 24 * 7);
+
+        $_SESSION['auth'] = $user;
+        $_SESSION['flash']['success'] = 'Vous êtes maintenant connecté';
+        redirection_link('index');
+        exit();
+      }else{
+        $_SESSION['flash']['danger'] = "Identifiant ou mot de passe incorrecte";
+        redirection_link('login');
+        exit();
+      }
   }
 
 ?>

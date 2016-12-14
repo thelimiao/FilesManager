@@ -1,7 +1,6 @@
 <?php
   $page = "directory";
   require_once 'inc/header.php';
-  is_authenticated();
   $rank = check_rank($_SESSION['auth']->id_rank);
 
   if(isset($_GET['delete']) && preg_match("/^[0-9]+$/i",$_GET['delete'])){

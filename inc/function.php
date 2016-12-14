@@ -107,6 +107,37 @@ function is_admin(){
 
 }
 
+// Générateur de clé
+function str_random($length){
+    $alphabet = "0123456789azertyuiopqsdfghjklmwxcvbnAZERTYUIOPQSDFGHJKLMWXCVBN";
+    return substr(str_shuffle(str_repeat($alphabet, $length)), 0, $length);
+}
+
+// Cookie de reconnexion de session
+function reconnect_cookie(){
+  if(!isset($pdo)){
+    global $pdo;
+  }
+  if(isset($_COOKIE['remember']) && (!isset($_SESSION['auth']) || empty($_SESSION['auth']))){
+
+    $remember_token = $_COOKIE['remember'];
+    $parts = explode('==', $remember_token);
+    $user_id = $parts[0];
+    $req = $pdo->prepare('SELECT * FROM users WHERE id = ?');
+    $req->execute([$user_id]);
+    $user = $req->fetch();
+    if($user){
+        $expected = $user_id . '==' . $user->remember_token . sha1($user_id . 'adtr');
+        if($expected == $remember_token){
+            $_SESSION['auth'] = $user;
+            setcookie('remember', $remember_token, time() + 60 * 60 * 24 * 7);
+        }
+    }else{
+        setcookie('remember', NULL, -1);
+    }
+  }
+}
+
 // Fonction qui créer un champ pour l'url avec comme valeur la clef csrf
 function csrf(){
     return 'csrf='.$_SESSION['csrf'];

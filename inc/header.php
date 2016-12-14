@@ -2,6 +2,11 @@
   require_once 'inc/database.php';
   require_once 'inc/function.php';
   is_session();
+  reconnect_cookie();
+
+  if($page != 'login'){
+    is_authenticated();
+  }
 ?>
 
 <!DOCTYPE html>

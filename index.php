@@ -1,7 +1,6 @@
 <?php
   $page = "index";
   require_once 'inc/header.php';
-  is_authenticated();
   $rank = check_rank($_SESSION['auth']->id_rank);
   $directory = check_directory($_SESSION['auth']->id);
 
@@ -21,18 +20,16 @@
   }
 
   /*
-   * Upload de fichier
-   */
+  * Upload de fichier
+  */
   if(!empty($_FILES['file']['name'])){
     checkCsrf();
-
     // Vérification de la taille du fichier
     if($_FILES["file"]["size"] > $maxUploadSize){
       $_SESSION['flash']['warning'] = 'Le fichier est trop grand';
       header('location: index.php');
       exit();
     }
-
       /*
        * Envoie de fichier sur serveur
        */
@@ -44,26 +41,19 @@
           $file_exist = true;
         }
       }
-
       if($file_exist == false){
-
         $target_dir = dirname(__FILE__)."/directory/".$directory."/";
         $target_file = $target_dir . basename($_FILES['file']['name']);
         $extension = pathinfo($target_file, PATHINFO_EXTENSION);
-
         $file_name = $_FILES['file']['name'];
         move_uploaded_file($_FILES['file']["tmp_name"], $target_file);
-
       }
-
       /*
        * Enregistrement du fichier en base
        */
       $name = $pdo->quote($_FILES['file']['name']);
       $directory_id = $pdo->quote($directory);
-
       $pdo->query("INSERT INTO files SET name = $name, id_directory = $directory_id");
-
   }
 
 
@@ -115,9 +105,9 @@
                 <span class="input-group-btn">
                   <button class="browse btn btn-primary" type="button"><i class="glyphicon glyphicon-file"></i> Choisir un fichier</button>
                 </span>
-              </div>
-              <?php echo csrfInput(); ?>
-              <br/>
+              </div>';
+          echo csrfInput();
+          echo '<br/>
               <div id="thebar" class="progress progress-striped active">
                 <div class="progress-bar" style="width: 0%">0%</div>
               </div>

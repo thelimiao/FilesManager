@@ -1,7 +1,6 @@
 <?php
   $page = "directory";
   require_once 'inc/header.php';
-  is_authenticated();
   $rank = check_rank($_SESSION['auth']->id_rank);
 
   if(isset($_GET['id']) && preg_match("/^[0-9]+$/i",$_GET['id'])){
@@ -89,30 +88,30 @@
                         <td>'.$entry.'</td>
                         <td>
                         <div class="btn-group">
-                          <a href="download.php?id='.$id_link.'&type='.$type.'" class="btn btn-success"><span class="glyphicon glyphicon-save"></span> Télécharger le fichier</a>';
+                          <a href="download.php?id='.$internal->id.'&type='.$type.'" class="btn btn-success"><span class="glyphicon glyphicon-save"></span> Télécharger le fichier</a>';
                   $extension = explode(".", $entry);
                   $count = count($extension);
                   $number = $count-1;
                   if($extension[$number] == 'mp4' || $extension[$number] == 'webm' || $extension[$number] == 'mkv'){
                     echo '<a href="#" class="btn btn-success dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
                           <ul class="dropdown-menu">
-                            <li><a href="file.php?id='.$id_link.'&type='.$type.'"><span class="glyphicon glyphicon-film"></span> Regarder en streaming</a></li>
+                            <li><a href="file.php?id='.$internal->id.'&type='.$type.'"><span class="glyphicon glyphicon-film"></span> Regarder en streaming</a></li>
                           </ul>';
                   }elseif($extension[$number] == 'mp3' || $extension[$number] == 'ogg' || $extension[$number] == 'wav'){
                     echo '<a href="#" class="btn btn-success dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
                           <ul class="dropdown-menu">
-                            <li><a href="file.php?id='.$id_link.'&type='.$type.'"><span class="glyphicon glyphicon-music"></span> Jouer le son</a></li>
+                            <li><a href="file.php?id='.$internal->id.'&type='.$type.'"><span class="glyphicon glyphicon-music"></span> Jouer le son</a></li>
                           </ul>';
                   }elseif($extension[$number] == 'jpg' || $extension[$number] == 'jpeg' || $extension[$number] == 'png' || $extension[$number] == 'gif'
                    || $extension[$number] == 'bmp' || $extension[$number] == 'svg' || $extension[$number] == 'icon'){
                     echo '<a href="#" class="btn btn-success dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
                           <ul class="dropdown-menu">
-                            <li><a href="file.php?id='.$id_link.'&type='.$type.'" target="_blank"><span class="glyphicon glyphicon-picture"></span> Obtenir l\'url</a></li>
+                            <li><a href="file.php?id='.$internal->id.'&type='.$type.'" target="_blank"><span class="glyphicon glyphicon-picture"></span> Obtenir l\'url</a></li>
                           </ul>';
                   }elseif($extension[$number] == 'pdf'){
                     echo '<a href="#" class="btn btn-success dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
                           <ul class="dropdown-menu">
-                            <li><a href="file.php?id='.$id_link.'&type='.$type.'" target="_blank"><span class="glyphicon glyphicon-eye-open"></span> Visualiser le document</a></li>
+                            <li><a href="file.php?id='.$internal->id.'&type='.$type.'" target="_blank"><span class="glyphicon glyphicon-eye-open"></span> Visualiser le document</a></li>
                           </ul>';
                   }
                   echo '</div>

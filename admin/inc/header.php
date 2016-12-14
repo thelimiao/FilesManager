@@ -2,6 +2,7 @@
   require_once '../inc/database.php';
   require_once '../inc/function.php';
   is_session();
+  reconnect_cookie();
   is_admin();
 ?>
 
