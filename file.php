@@ -44,7 +44,21 @@
         }
 
       }elseif($_GET['type'] == 'link'){
+        $id = $pdo->quote($_GET['id']);
+        $req = $pdo->query("SELECT * FROM internal WHERE id = $id");
+        while($data = $req->fetch()){
+          $location = $data->location;
+        }
 
+        if(isset($_GET['dir']) && $_GET['dir'] == 'yes'){
+          // Si dans un dossier
+
+
+        }else{
+          // Si dans la racine du répertoire
+
+
+        }
       }else{
         $_SESSION['flash']['danger'] = 'Aucun fichier ne correspond à cette url';
         header('location: index.php');

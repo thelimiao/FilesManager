@@ -30,7 +30,11 @@
       if(empty($explode[$count-1])){
         $explode = array_slice($explode, 0, $count-1);
       }
-      $location = implode("/",$explode)."/";
+      if(!empty($explode[0])){
+        $location = "/".implode("/",$explode)."/";
+      }else{
+        $location = implode("/",$explode)."/";
+      }
       if(!file_exists($location) || !is_dir($location)){
         $errors['name'] = "Le chemin du répertoire n'est pas accéssible";
       }
