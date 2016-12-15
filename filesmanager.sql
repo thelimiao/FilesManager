@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 15, 2016 at 03:09 PM
+-- Generation Time: Dec 15, 2016 at 04:05 PM
 -- Server version: 5.5.53-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.20
 
@@ -35,7 +35,14 @@ CREATE TABLE IF NOT EXISTS `access` (
   PRIMARY KEY (`id`),
   KEY `id_user` (`id_user`),
   KEY `id_directory` (`id_directory`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
+
+--
+-- Dumping data for table `access`
+--
+
+INSERT INTO `access` (`id`, `id_user`, `id_directory`, `folder_directory`, `link_directory`) VALUES
+(12, 25, 12, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -82,8 +89,16 @@ CREATE TABLE IF NOT EXISTS `internal` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `location` varchar(255) NOT NULL,
+  `url` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
+
+--
+-- Dumping data for table `internal`
+--
+
+INSERT INTO `internal` (`id`, `name`, `location`, `url`) VALUES
+(12, 'transmission', '/home/fukotaku/downloads/', 'http://download.horyzone.fr/');
 
 -- --------------------------------------------------------
 

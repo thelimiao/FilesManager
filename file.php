@@ -48,6 +48,7 @@
         $req = $pdo->query("SELECT * FROM internal WHERE id = $id");
         while($data = $req->fetch()){
           $location = $data->location;
+          $url = $data->url;
         }
 
         if(isset($_GET['dir'])){
@@ -202,55 +203,35 @@
 
         if(isset($_GET['dir'])){
           // Si dans un dossier
-          $req = $pdo->query("SELECT * FROM settings");
-          $settings = $req->fetch();
-          $explode = explode("/", $settings->path);
-          $root = count($explode)-2;
-          $path = '';
-          for($i = 0; $i < $root; $i++){
-            $path = $path."../";
-          }
-          $path = trim($path, '/');
-
           if($fileType === 'video'){
             echo '<h2><strong>Vous regardez '.basename($location_file).'</strong></h2>';
             echo '<br/>';
             echo '<p><video width="720" controls>
-                    <source src="'.$path.$location_file.'" type="video/'.$extension.'">
+                    <source src="'.$url.$_GET['dir'].basename($location_file).'" type="video/'.$extension.'">
                     Votre navigateur ne supporte pas la lecture de vidéo avec HTML5.
                   </video></p>';
           }elseif($fileType === 'sound'){
             echo '<h2><strong>Vous écoutez '.basename($location_file).'</strong></h2>';
             echo '<br/>';
             echo '<p><audio controls>
-                    <source src="'.$path.$location_file.'" type="audio/'.$extension.'">
+                    <source src="'.$url.$_GET['dir'].basename($location_file).'" type="audio/'.$extension.'">
                   otre navigateur ne supporte pas la lecture de son avec HTML5.
                   </audio></p>';
           }
         }else{
           // Si dans le dossier racine
-          $req = $pdo->query("SELECT * FROM settings");
-          $settings = $req->fetch();
-          $explode = explode("/", $settings->path);
-          $root = count($explode)-2;
-          $path = '';
-          for($i = 0; $i < $root; $i++){
-            $path = $path."../";
-          }
-          $path = trim($path, '/');
-
           if($fileType === 'video'){
             echo '<h2><strong>Vous regardez '.basename($location_file).'</strong></h2>';
             echo '<br/>';
             echo '<p><video width="720" controls>
-                    <source src="'.$path.$location_file.'" type="video/'.$extension.'">
+                    <source src="'.$url.basename($location_file).'" type="video/'.$extension.'">
                     Votre navigateur ne supporte pas la lecture de vidéo avec HTML5.
                   </video></p>';
           }elseif($fileType === 'sound'){
             echo '<h2><strong>Vous écoutez '.basename($location_file).'</strong></h2>';
             echo '<br/>';
             echo '<p><audio controls>
-                    <source src="'.$path.$location_file.'" type="audio/'.$extension.'">
+                    <source src="'.$url.basename($location_file).'" type="audio/'.$extension.'">
                   otre navigateur ne supporte pas la lecture de son avec HTML5.
                   </audio></p>';
           }
