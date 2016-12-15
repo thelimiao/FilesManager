@@ -39,14 +39,17 @@
 
         if(isset($_GET['dir'])){
           // Si dans un dossier
-          $number = 0;
+          $number = 1;
           if($dh = opendir($location.$_GET['dir'])){
             while(($entry = readdir($dh)) !== false){
-              if($number == $_GET['file']){
-                $location_file = $location.$_GET['dir']."/".$entry;
-                $filename = $entry;
+              if(!is_dir($entry)){
+                if($number == $_GET['file']){
+                  $location_file = $location.$_GET['dir']."/".$entry;
+                  $filename = $entry;
+                }
+                $number++;
               }
-              $number++;
+
             }
             closedir($dh);
           }

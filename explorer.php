@@ -116,6 +116,7 @@
                     }
                     closedir($dh_dir);
                   }
+                  $id_file = 0;
 
                   echo '</tbody>
                       </table>
