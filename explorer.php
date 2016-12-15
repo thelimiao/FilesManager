@@ -103,7 +103,7 @@
                   if($dh_dir = opendir($internal->location."/".$entry)){
                     while(($file = readdir($dh_dir)) !== false){
                       if($file != "." && $file != ".."){
-                        if(!is_dir($file)){
+                        if(!is_dir($internal->location."/".$entry."/".$file)){
                           $id_file++;
                           echo '<tr>
                                   <td>'.$file.'</td>
