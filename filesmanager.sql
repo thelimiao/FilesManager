@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 15, 2016 at 04:05 PM
+-- Generation Time: Dec 15, 2016 at 04:42 PM
 -- Server version: 5.5.53-0ubuntu0.14.04.1
 -- PHP Version: 5.5.9-1ubuntu4.20
 
@@ -35,14 +35,7 @@ CREATE TABLE IF NOT EXISTS `access` (
   PRIMARY KEY (`id`),
   KEY `id_user` (`id_user`),
   KEY `id_directory` (`id_directory`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
-
---
--- Dumping data for table `access`
---
-
-INSERT INTO `access` (`id`, `id_user`, `id_directory`, `folder_directory`, `link_directory`) VALUES
-(12, 25, 12, 0, 1);
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
 
 -- --------------------------------------------------------
 
@@ -56,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `directory` (
   `id_user` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_user` (`id_user`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=35 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=36 ;
 
 -- --------------------------------------------------------
 
@@ -70,14 +63,15 @@ CREATE TABLE IF NOT EXISTS `files` (
   `id_directory` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_directory` (`id_directory`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=54 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=55 ;
 
 --
 -- Dumping data for table `files`
 --
 
 INSERT INTO `files` (`id`, `name`, `id_directory`) VALUES
-(52, 'financer-son-entreprise_P1CH3.mp4', 34);
+(52, 'financer-son-entreprise_P1CH3.mp4', 34),
+(54, 'financer.son.entreprise.P1CH3.mp4', 35);
 
 -- --------------------------------------------------------
 
@@ -89,16 +83,8 @@ CREATE TABLE IF NOT EXISTS `internal` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `location` varchar(255) NOT NULL,
-  `url` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
-
---
--- Dumping data for table `internal`
---
-
-INSERT INTO `internal` (`id`, `name`, `location`, `url`) VALUES
-(12, 'transmission', '/home/fukotaku/downloads/', 'http://download.horyzone.fr/');
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
 
 -- --------------------------------------------------------
 
@@ -143,7 +129,6 @@ INSERT INTO `ranks` (`id`, `name`) VALUES
 CREATE TABLE IF NOT EXISTS `settings` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `upload_size` bigint(20) NOT NULL,
-  `path` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
@@ -151,8 +136,8 @@ CREATE TABLE IF NOT EXISTS `settings` (
 -- Dumping data for table `settings`
 --
 
-INSERT INTO `settings` (`id`, `upload_size`, `path`) VALUES
-(1, 1073741824, '/home/simon/www/FilesManager/');
+INSERT INTO `settings` (`id`, `upload_size`) VALUES
+(1, 1073741824);
 
 -- --------------------------------------------------------
 

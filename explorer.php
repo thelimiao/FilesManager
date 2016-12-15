@@ -108,82 +108,26 @@
                           echo '<tr>
                                   <td>'.$file.'</td>
                                   <td>
-                                  <div class="btn-group">
-                                    <a href="download.php?id='.$internal->id.'&type='.$type.'&dir='.$entry.'&file='.$id_file.'" class="btn btn-success"><span class="glyphicon glyphicon-save"></span> Télécharger le fichier</a>';
-                            $extension = explode(".", $file);
-                            $count = count($extension);
-                            $number = $count-1;
-                            if($extension[$number] == 'mp4' || $extension[$number] == 'webm' || $extension[$number] == 'mkv'){
-                              echo '<a href="#" class="btn btn-success dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
-                                    <ul class="dropdown-menu">
-                                      <li><a href="file.php?id='.$internal->id.'&type='.$type.'&dir='.$entry.'&file='.$id_file.'"><span class="glyphicon glyphicon-film"></span> Regarder en streaming</a></li>
-                                    </ul>';
-                            }elseif($extension[$number] == 'mp3' || $extension[$number] == 'ogg' || $extension[$number] == 'wav'){
-                              echo '<a href="#" class="btn btn-success dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
-                                    <ul class="dropdown-menu">
-                                      <li><a href="file.php?id='.$internal->id.'&type='.$type.'&dir='.$entry.'&file='.$id_file.'"><span class="glyphicon glyphicon-music"></span> Jouer le son</a></li>
-                                    </ul>';
-                            }elseif($extension[$number] == 'jpg' || $extension[$number] == 'jpeg' || $extension[$number] == 'png' || $extension[$number] == 'gif'
-                             || $extension[$number] == 'bmp' || $extension[$number] == 'svg' || $extension[$number] == 'icon'){
-                              echo '<a href="#" class="btn btn-success dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
-                                    <ul class="dropdown-menu">
-                                      <li><a href="file.php?id='.$internal->id.'&type='.$type.'&dir='.$entry.'&file='.$id_file.'" target="_blank"><span class="glyphicon glyphicon-picture"></span> Obtenir l\'url</a></li>
-                                    </ul>';
-                            }elseif($extension[$number] == 'pdf'){
-                              echo '<a href="#" class="btn btn-success dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
-                                    <ul class="dropdown-menu">
-                                      <li><a href="file.php?id='.$internal->id.'&type='.$type.'&dir='.$entry.'&file='.$id_file.'" target="_blank"><span class="glyphicon glyphicon-eye-open"></span> Visualiser le document</a></li>
-                                    </ul>';
-                            }
-                            echo '</div>
+                                    <a href="download.php?id='.$internal->id.'&type='.$type.'&dir='.$entry.'&file='.$id_file.'" class="btn btn-success"><span class="glyphicon glyphicon-save"></span> Télécharger le fichier</a>
                                   </td>
                                 </tr>';
                         }
                       }
                     }
                     closedir($dh_dir);
-                    $id_file = 0;
                   }
 
                   echo '</tbody>
-                  </table>
-                 </div>
-                </tr>';
-
+                      </table>
+                     </div>
+                    </tr>';
 
                 // Si fichier
                 }else{
                   echo '<tr>
                           <td>'.$entry.'</td>
                           <td>
-                          <div class="btn-group">
-                            <a href="download.php?id='.$internal->id.'&type='.$type.'&file='.$id_link.'" class="btn btn-success"><span class="glyphicon glyphicon-save"></span> Télécharger le fichier</a>';
-                    $extension = explode(".", $entry);
-                    $count = count($extension);
-                    $number = $count-1;
-                    if($extension[$number] == 'mp4' || $extension[$number] == 'webm' || $extension[$number] == 'mkv'){
-                      echo '<a href="#" class="btn btn-success dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                              <li><a href="file.php?id='.$internal->id.'&type='.$type.'&file='.$id_link.'"><span class="glyphicon glyphicon-film"></span> Regarder en streaming</a></li>
-                            </ul>';
-                    }elseif($extension[$number] == 'mp3' || $extension[$number] == 'ogg' || $extension[$number] == 'wav'){
-                      echo '<a href="#" class="btn btn-success dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                              <li><a href="file.php?id='.$internal->id.'&type='.$type.'&file='.$id_link.'"><span class="glyphicon glyphicon-music"></span> Jouer le son</a></li>
-                            </ul>';
-                    }elseif($extension[$number] == 'jpg' || $extension[$number] == 'jpeg' || $extension[$number] == 'png' || $extension[$number] == 'gif'
-                     || $extension[$number] == 'bmp' || $extension[$number] == 'svg' || $extension[$number] == 'icon'){
-                      echo '<a href="#" class="btn btn-success dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                              <li><a href="file.php?id='.$internal->id.'&type='.$type.'&file='.$id_link.'" target="_blank"><span class="glyphicon glyphicon-picture"></span> Obtenir l\'url</a></li>
-                            </ul>';
-                    }elseif($extension[$number] == 'pdf'){
-                      echo '<a href="#" class="btn btn-success dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                              <li><a href="file.php?id='.$internal->id.'&type='.$type.'&file='.$id_link.'" target="_blank"><span class="glyphicon glyphicon-eye-open"></span> Visualiser le document</a></li>
-                            </ul>';
-                    }
-                    echo '</div>
+                            <a href="download.php?id='.$internal->id.'&type='.$type.'&file='.$id_link.'" class="btn btn-success"><span class="glyphicon glyphicon-save"></span> Télécharger le fichier</a>
                           </td>
                         </tr>';
                 }// Fin si fichier

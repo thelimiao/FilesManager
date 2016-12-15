@@ -16,25 +16,6 @@
         $req->execute([$size]);
       }
 
-      if(!empty($_POST['path'])){
-        $explode = explode("/", $_POST['path']);
-        $count = count($explode);
-        if(empty($explode[$count-1])){
-          $explode = array_slice($explode, 0, $count-1);
-        }
-        if(!empty($explode[0])){
-          $location = "/".implode("/",$explode)."/";
-        }else{
-          $location = implode("/",$explode)."/";
-        }
-        $req = $pdo->prepare("UPDATE settings SET path = ?");
-        $req->execute([$location]);
-      }else{
-        $_SESSION['flash']['danger'] = 'Le path doit-être indiqué';
-        header('location: settings.php');
-        exit();
-      }
-
       $_SESSION['flash']['success'] = 'Les paramètres on bien étais enregistrés';
       header('location: settings.php');
       exit();
@@ -77,11 +58,6 @@
           ?>
           <label class="control-label" for="maxSize">Taille d'upload max :</label>
           <input class="form-control" id="maxSize" value="<?php echo octetConvertToMo($settings->upload_size); ?>" type="number" name="size">
-
-          <hr>
-          <p>Modifier le chemin absolu de l'application:</p>
-          <label class="control-label" for="path">Chemin absolu :</label>
-          <input class="form-control" id="path" value="<?php echo $settings->path; ?>" type="text" name="path" placeholder="/home/www/monappli/">
 
           <?php echo csrfInput(); ?>
           <br/>
