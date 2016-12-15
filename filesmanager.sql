@@ -65,14 +65,6 @@ CREATE TABLE IF NOT EXISTS `files` (
   KEY `id_directory` (`id_directory`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=55 ;
 
---
--- Dumping data for table `files`
---
-
-INSERT INTO `files` (`id`, `name`, `id_directory`) VALUES
-(52, 'financer-son-entreprise_P1CH3.mp4', 34),
-(54, 'financer.son.entreprise.P1CH3.mp4', 35);
-
 -- --------------------------------------------------------
 
 --
