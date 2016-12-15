@@ -105,10 +105,12 @@
                       if($file != "." && $file != ".."){
                         if(!is_dir($internal->location."/".$entry."/".$file)){
                           $id_file++;
+                          $trans = array("+" => "@");
+                          $the_entry = strtr($entry, $trans);
                           echo '<tr>
                                   <td>'.$file.'</td>
                                   <td>
-                                    <a href="download.php?id='.$internal->id.'&type='.$type.'&dir='.$entry.'&file='.$id_file.'" class="btn btn-success"><span class="glyphicon glyphicon-save"></span> Télécharger le fichier</a>
+                                    <a href="download.php?id='.$internal->id.'&type='.$type.'&dir='.$the_entry.'&file='.$id_file.'" class="btn btn-success"><span class="glyphicon glyphicon-save"></span> Télécharger le fichier</a>
                                   </td>
                                 </tr>';
                         }

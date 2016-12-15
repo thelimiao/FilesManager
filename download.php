@@ -41,11 +41,14 @@
         if(isset($_GET['dir'])){
           // Si dans un dossier
           $number = 1;
-          if($dh = opendir($location.$_GET['dir'])){
+          $trans = array("@" => "+");
+          $the_dir = strtr($_GET['dir'], $trans);
+
+          if($dh = opendir($location.$the_dir)){
             while(($entry = readdir($dh)) !== false){
               if(!is_dir($entry)){
                 if($number == $_GET['file']){
-                  $location_file = $location.$_GET['dir']."/".$entry;
+                  $location_file = $location.$the_dir."/".$entry;
                   $filename = $entry;
                 }
                 $number++;
