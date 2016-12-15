@@ -68,14 +68,16 @@
 
         }else{
           // Si dans la racine du répertoire
-          $number = 0;
+          $number = 1;
           if($dh = opendir($location)){
             while(($entry = readdir($dh)) !== false){
-              if($number == $_GET['file']){
-                $location_file = $location."".$entry;
-                $filename = $entry;
+              if(!is_dir($entry)){
+                if($number == $_GET['file']){
+                  $location_file = $location."".$entry;
+                  $filename = $entry;
+                }
+                $number++;
               }
-              $number++;
             }
             closedir($dh);
           }
