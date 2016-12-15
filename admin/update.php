@@ -44,7 +44,8 @@
 
     if(empty($errors)){
       if(checkCsrf() === true){
-        if($pass === true){
+        if(isset($pass) && $pass === true){
+          $id = $_GET['id'];
           $req = $pdo->prepare("UPDATE users SET username = ?, password = ?, id_rank = ? WHERE id = ?");
           $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
           $req->execute([$_POST['username'], $password, $_POST['rank'], $id]);
@@ -53,7 +54,7 @@
           $req->execute([$_POST['username'], $_POST['rank'], $id]);
         }
         $_SESSION['flash']['success'] = 'Le compte a bien était enregistré';
-        header('location: index.php');
+        header('location: users.php');
         exit();
       }
     }
