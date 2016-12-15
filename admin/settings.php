@@ -29,6 +29,10 @@
         }
         $req = $pdo->prepare("UPDATE settings SET path = ?");
         $req->execute([$location]);
+      }else{
+        $_SESSION['flash']['danger'] = 'Le path doit-être indiqué';
+        header('location: settings.php');
+        exit();
       }
 
       $_SESSION['flash']['success'] = 'Les paramètres on bien étais enregistrés';
@@ -75,8 +79,8 @@
           <input class="form-control" id="maxSize" value="<?php echo octetConvertToMo($settings->upload_size); ?>" type="number" name="size">
 
           <hr>
-          <p>Modifier le chemin absolut de l'application:</p>
-          <label class="control-label" for="path">Chemin absolut :</label>
+          <p>Modifier le chemin absolu de l'application:</p>
+          <label class="control-label" for="path">Chemin absolu :</label>
           <input class="form-control" id="path" value="<?php echo $settings->path; ?>" type="text" name="path" placeholder="/home/www/monappli/">
 
           <?php echo csrfInput(); ?>

@@ -50,13 +50,87 @@
           $location = $data->location;
         }
 
-        if(isset($_GET['dir']) && $_GET['dir'] == 'yes'){
+        if(isset($_GET['dir'])){
           // Si dans un dossier
+          $number = 0;
+          if($dh = opendir($location.$_GET['dir'])){
+            while(($entry = readdir($dh)) !== false){
+              if($number == $_GET['file']){
+                $location_file = $location.$_GET['dir']."/".$entry;
+                $filename = $entry;
+              }
+              $number++;
+            }
+            closedir($dh);
+          }
 
+          if(file_exists($location_file)){
+              $explode = explode(".", basename($location_file));
+              $count = count($explode);
+              $extension = $explode[$count-1];
+
+              if($extension == 'mp4' || $extension == 'webm' || $extension == 'mkv'){
+                $fileType = 'video';
+              }elseif($extension == 'mp3' || $extension == 'wav' || $extension == 'ogg'){
+                $fileType = 'sound';
+              }elseif($extension == 'jpg' || $extension == 'jpeg' || $extension == 'png' || $extension == 'gif' || $extension == 'bmp' || $extension == 'svg' || $extension == 'icon'){
+                header('location: directory/'.$directoryLocation.'/'.$fileName);
+                exit();
+              }elseif($extension == 'pdf'){
+                header('location: directory/'.$directoryLocation.'/'.$fileName);
+                exit();
+              }else{
+                $_SESSION['flash']['danger'] = 'Format du fichier non pris en charge';
+                header('location: index.php');
+                exit();
+              }
+
+          }else{
+            $_SESSION['flash']['danger'] = 'Aucun fichier ne correspond à cette url';
+            header('location: index.php');
+            exit();
+          }
 
         }else{
           // Si dans la racine du répertoire
+          $number = 0;
+          if($dh = opendir($location)){
+            while(($entry = readdir($dh)) !== false){
+              if($number == $_GET['file']){
+                $location_file = $location."/".$entry;
+                $filename = $entry;
+              }
+              $number++;
+            }
+            closedir($dh);
+          }
 
+          if(file_exists($location_file)){
+              $explode = explode(".", basename($location_file));
+              $count = count($explode);
+              $extension = $explode[$count-1];
+
+              if($extension == 'mp4' || $extension == 'webm' || $extension == 'mkv'){
+                $fileType = 'video';
+              }elseif($extension == 'mp3' || $extension == 'wav' || $extension == 'ogg'){
+                $fileType = 'sound';
+              }elseif($extension == 'jpg' || $extension == 'jpeg' || $extension == 'png' || $extension == 'gif' || $extension == 'bmp' || $extension == 'svg' || $extension == 'icon'){
+                header('location: directory/'.$directoryLocation.'/'.$fileName);
+                exit();
+              }elseif($extension == 'pdf'){
+                header('location: directory/'.$directoryLocation.'/'.$fileName);
+                exit();
+              }else{
+                $_SESSION['flash']['danger'] = 'Format du fichier non pris en charge';
+                header('location: index.php');
+                exit();
+              }
+
+          }else{
+            $_SESSION['flash']['danger'] = 'Aucun fichier ne correspond à cette url';
+            header('location: index.php');
+            exit();
+          }
 
         }
       }else{
@@ -108,7 +182,7 @@
     <div class="jumbotron text-center">
 
       <?php
-
+      if(isset($_GET['type']) && $_GET['type'] == 'folder'){
         if($fileType === 'video'){
           echo '<h2><strong>Vous regardez '.$fileName.'</strong></h2>';
           echo '<br/>';
@@ -124,6 +198,67 @@
                 otre navigateur ne supporte pas la lecture de son avec HTML5.
                 </audio></p>';
         }
+      }elseif(isset($_GET['type']) && $_GET['type'] == 'link'){
+
+        if(isset($_GET['dir'])){
+          // Si dans un dossier
+          $req = $pdo->query("SELECT * FROM settings");
+          $settings = $req->fetch();
+          $explode = explode("/", $settings->path);
+          $root = count($explode)-2;
+          $path = '';
+          for($i = 0; $i < $root; $i++){
+            $path = $path."../";
+          }
+          $path = trim($path, '/');
+
+          if($fileType === 'video'){
+            echo '<h2><strong>Vous regardez '.basename($location_file).'</strong></h2>';
+            echo '<br/>';
+            echo '<p><video width="720" controls>
+                    <source src="'.$path.$location_file.'" type="video/'.$extension.'">
+                    Votre navigateur ne supporte pas la lecture de vidéo avec HTML5.
+                  </video></p>';
+          }elseif($fileType === 'sound'){
+            echo '<h2><strong>Vous écoutez '.basename($location_file).'</strong></h2>';
+            echo '<br/>';
+            echo '<p><audio controls>
+                    <source src="'.$path.$location_file.'" type="audio/'.$extension.'">
+                  otre navigateur ne supporte pas la lecture de son avec HTML5.
+                  </audio></p>';
+          }
+        }else{
+          // Si dans le dossier racine
+          $req = $pdo->query("SELECT * FROM settings");
+          $settings = $req->fetch();
+          $explode = explode("/", $settings->path);
+          $root = count($explode)-2;
+          $path = '';
+          for($i = 0; $i < $root; $i++){
+            $path = $path."../";
+          }
+          $path = trim($path, '/');
+
+          if($fileType === 'video'){
+            echo '<h2><strong>Vous regardez '.basename($location_file).'</strong></h2>';
+            echo '<br/>';
+            echo '<p><video width="720" controls>
+                    <source src="'.$path.$location_file.'" type="video/'.$extension.'">
+                    Votre navigateur ne supporte pas la lecture de vidéo avec HTML5.
+                  </video></p>';
+          }elseif($fileType === 'sound'){
+            echo '<h2><strong>Vous écoutez '.basename($location_file).'</strong></h2>';
+            echo '<br/>';
+            echo '<p><audio controls>
+                    <source src="'.$path.$location_file.'" type="audio/'.$extension.'">
+                  otre navigateur ne supporte pas la lecture de son avec HTML5.
+                  </audio></p>';
+          }
+        }
+
+
+      }
+
 
       ?>
 
