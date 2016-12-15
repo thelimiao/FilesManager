@@ -23,6 +23,7 @@
         header("Content-Description: File Transfer");
         header('Content-Type: application/octet-stream');
         header('Content-Transfer-Encoding: binary');
+        header('Content-Length: ' . filesize($location));
         header('Content-disposition: attachment; filename="' . $fileName . '"');
         readfile($location);
         exit();
@@ -60,6 +61,7 @@
             header("Content-Description: File Transfer");
             header('Content-Type: application/octet-stream');
             header('Content-Transfer-Encoding: binary');
+            header('Content-Length: ' . filesize($location_file));
             header('Content-disposition: attachment; filename="' . basename($location_file) . '"');
             readfile($location_file);
             exit();
@@ -87,6 +89,7 @@
             header("Content-Description: File Transfer");
             header('Content-Type: application/octet-stream');
             header('Content-Transfer-Encoding: binary');
+            header('Content-Length: ' . filesize($location_file));
             header('Content-disposition: attachment; filename="' . basename($location_file) . '"');
             readfile($location_file);
             exit();
