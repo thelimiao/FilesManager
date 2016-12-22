@@ -158,7 +158,7 @@
                 $extension = explode(".", $data->name);
                 $count = count($extension);
                 $number = $count-1;
-                if($extension[$number] == 'mp4' || $extension[$number] == 'webm' || $extension[$number] == 'mkv'){
+                if($extension[$number] == 'mp4' || $extension[$number] == 'webm'){
                   echo '<a href="#" class="btn btn-success dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
                         <ul class="dropdown-menu">
                           <li><a href="file.php?id='.$data->id.'&type='.$type.'"><span class="glyphicon glyphicon-film"></span> Regarder en streaming</a></li>

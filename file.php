@@ -18,7 +18,7 @@
       $count = count($explode);
       $extension = $explode[$count-1];
 
-      if($extension == 'mp4' || $extension == 'webm' || $extension == 'mkv'){
+      if($extension == 'mp4' || $extension == 'webm'){
         $fileType = 'video';
       }elseif($extension == 'mp3' || $extension == 'wav' || $extension == 'ogg'){
         $fileType = 'sound';
