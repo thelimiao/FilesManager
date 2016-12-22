@@ -111,6 +111,7 @@
                                   <td>'.$file.'</td>
                                   <td>
                                     <a href="download.php?id='.$internal->id.'&type='.$type.'&dir='.$the_entry.'&file='.$id_file.'" class="btn btn-success"><span class="glyphicon glyphicon-save"></span> Télécharger le fichier</a>
+                                    <a href="transfert.php?id='.$internal->id.'&type='.$type.'&dir='.$the_entry.'&file='.$id_file.'" class="btn btn-info"><span class="glyphicon glyphicon-share-alt"></span> Transférer le fichier</a>
                                   </td>
                                 </tr>';
                         }
@@ -131,6 +132,7 @@
                           <td>'.$entry.'</td>
                           <td>
                             <a href="download.php?id='.$internal->id.'&type='.$type.'&file='.$id_link.'" class="btn btn-success"><span class="glyphicon glyphicon-save"></span> Télécharger le fichier</a>
+                            <a href="transfert.php?id='.$internal->id.'&type='.$type.'&file='.$id_link.'" class="btn btn-info"><span class="glyphicon glyphicon-share-alt"></span> Transférer le fichier</a>
                           </td>
                         </tr>';
                 }// Fin si fichier
