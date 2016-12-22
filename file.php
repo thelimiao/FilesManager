@@ -57,7 +57,6 @@
       <nav>
 
         <ul class="nav nav-pills pull-left">
-          <li><a href="logout.php"><span class="glyphicon glyphicon-folder-open"></span> &nbsp;Mes dossiers</a></li>
           <li><a href="index.php"><span class="glyphicon glyphicon-home"></span> &nbsp;Retourner à l'accueil</a></li>
         </ul>
 
@@ -96,7 +95,7 @@
                 otre navigateur ne supporte pas la lecture de son avec HTML5.
                 </audio></p>';
         }
-  
+
       ?>
 
 
