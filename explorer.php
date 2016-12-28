@@ -68,6 +68,7 @@
         <thead>
           <tr>
             <th>Nom du fichier/dossier</th>
+            <th>Poid du fichier</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -89,6 +90,7 @@
                 if(is_dir($internal->location."/".$entry)){
                   echo '<tr>
                         <td>'.$entry.'</td>
+                        <td></td>
                         <td>
                           <button class="btn btn-primary" data-toggle="collapse" data-target="#'.$id_link.'"><span class="glyphicon glyphicon-globe"></span> Explorer</button>
                           <div id="'.$id_link.'" class="collapse">
@@ -96,6 +98,7 @@
                           <thead>
                             <tr>
                               <th>Nom du fichier</th>
+                              <td>Poid du fichier</td>
                               <th>Actions</th>
                             </tr>
                           </thead>
@@ -109,6 +112,7 @@
                           $the_entry = strtr($entry, $trans);
                           echo '<tr>
                                   <td>'.$file.'</td>
+                                  <td>'.fileSizeConvert(filesize($internal->location."/".$entry."/".$file)).'</td>
                                   <td>
                                     <a href="download.php?id='.$internal->id.'&type='.$type.'&dir='.$the_entry.'&file='.$id_file.'" class="btn btn-success"><span class="glyphicon glyphicon-save"></span> Télécharger le fichier</a>
                                     <a href="transfert.php?id='.$internal->id.'&type='.$type.'&dir='.$the_entry.'&file='.$id_file.'" class="btn btn-info"><span class="glyphicon glyphicon-share-alt"></span> Transférer le fichier</a>
@@ -130,6 +134,7 @@
                 }else{
                   echo '<tr>
                           <td>'.$entry.'</td>
+                          <td>'.fileSizeConvert(filesize($internal->location."/".$entry)).'</td>
                           <td>
                             <a href="download.php?id='.$internal->id.'&type='.$type.'&file='.$id_link.'" class="btn btn-success"><span class="glyphicon glyphicon-save"></span> Télécharger le fichier</a>
                             <a href="transfert.php?id='.$internal->id.'&type='.$type.'&file='.$id_link.'" class="btn btn-info"><span class="glyphicon glyphicon-share-alt"></span> Transférer le fichier</a>

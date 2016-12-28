@@ -269,4 +269,14 @@ function maxUploadSize(){
   return intval($data->upload_size);
 }
 
+function fileSizeConvert($value){
+  if($value >= 1073741824){
+    $result = $value / 1073741824;
+    return round($result, 3).' Go';
+  }else{
+    $result = $value / 1048576;
+    return round($result, 3).' Mo';
+  }
+}
+
 ?>

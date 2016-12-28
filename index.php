@@ -1,4 +1,5 @@
 <?php
+ini_set('display_errors', 1);
   $page = "index";
   require_once 'inc/header.php';
   $rank = check_rank($_SESSION['auth']->id_rank);
@@ -136,6 +137,7 @@
         <thead>
           <tr>
             <th>Nom du fichier</th>
+            <th>Poid du fichier</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -149,9 +151,11 @@
             $existe = 0;
             while($data = $req->fetch()){
               $existe = 1;
+              $location = 'directory/'.$directory.'/'.$data->name;
 
               echo '<tr>
                       <td>'.$data->name.'</td>
+                      <td>'.fileSizeConvert(filesize($location)).'</td>
                       <td>
                       <div class="btn-group">
                         <a href="download.php?id='.$data->id.'&type='.$type.'" class="btn btn-success"><span class="glyphicon glyphicon-save"></span> Télécharger le fichier</a>';
