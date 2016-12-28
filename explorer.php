@@ -81,6 +81,18 @@
             $existe = 0;
             $id_link = 0;
             $id_file = 0;
+
+            $files = array();
+            $location = array();
+            $downloadUrl = array();
+            $transfertUrl = array();
+
+            //$dirnames = array();
+            //$locationdir = array();
+            //$links = array();
+
+
+
             while(($entry = readdir($dh)) !== false){
               if($entry != "." && $entry != ".."){
                 $existe = 1;
@@ -88,6 +100,10 @@
 
                 // Si dossier
                 if(is_dir($internal->location."/".$entry)){
+                  //$dirnames[] = $entry;
+                  //$locationdir[] = $internal->location."/".$entry;
+                  //$links[] = $id_link;
+
                   echo '<tr>
                         <td>'.$entry.'</td>
                         <td></td>
@@ -130,8 +146,15 @@
                      </div>
                     </tr>';
 
+
                 // Si fichier
                 }else{
+
+                  $files[] = $entry;
+                  $location[] = $internal->location."/".$entry;
+                  $downloadUrl[] = 'download.php?id='.$internal->id.'&type='.$type.'&file='.$id_link;
+                  $transfertUrl[] = 'transfert.php?id='.$internal->id.'&type='.$type.'&file='.$id_link;
+                  /*
                   echo '<tr>
                           <td>'.$entry.'</td>
                           <td>'.fileSizeConvert(filesize($internal->location."/".$entry)).'</td>
@@ -140,8 +163,22 @@
                             <a href="transfert.php?id='.$internal->id.'&type='.$type.'&file='.$id_link.'" class="btn btn-info"><span class="glyphicon glyphicon-share-alt"></span> Transférer le fichier</a>
                           </td>
                         </tr>';
+                  */
                 }// Fin si fichier
 
+              }
+            }
+            if(!empty($files)){
+              array_multisort($files, SORT_ASC, $location, $downloadUrl, $transfertUrl);
+              for($i = 0; $i < count($files); $i++){
+                echo '<tr>
+                        <td>'.$files[$i].'</td>
+                        <td>'.fileSizeConvert(filesize($location[$i])).'</td>
+                        <td>
+                          <a href="'.$downloadUrl[$i].'" class="btn btn-success"><span class="glyphicon glyphicon-save"></span> Télécharger le fichier</a>
+                          <a href="'.$transfertUrl[$i].'" class="btn btn-info"><span class="glyphicon glyphicon-share-alt"></span> Transférer le fichier</a>
+                        </td>
+                      </tr>';
               }
             }
             if($existe == 0){

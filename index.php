@@ -146,7 +146,7 @@ ini_set('display_errors', 1);
           <?php
 
             $directory_id = $pdo->quote($directory);
-            $req = $pdo->query("SELECT * FROM files WHERE id_directory = $directory_id ORDER BY id DESC");
+            $req = $pdo->query("SELECT * FROM files WHERE id_directory = $directory_id ORDER BY name ASC");
             $type = 'folder';
             $existe = 0;
             while($data = $req->fetch()){
