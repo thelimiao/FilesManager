@@ -272,10 +272,10 @@ function maxUploadSize(){
 function fileSizeConvert($value){
   if($value >= 1073741824){
     $result = $value / 1073741824;
-    return round($result, 3).' Go';
+    return round($result, 2).' Go';
   }else{
     $result = $value / 1048576;
-    return round($result, 3).' Mo';
+    return round($result, 2).' Mo';
   }
 }
 

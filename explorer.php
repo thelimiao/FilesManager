@@ -1,4 +1,5 @@
 <?php
+  ini_set('display_errors', 1);
   $page = "directory";
   require_once 'inc/header.php';
   $rank = check_rank($_SESSION['auth']->id_rank);
@@ -86,30 +87,38 @@
             $location = array();
             $downloadUrl = array();
             $transfertUrl = array();
+            $links = array();
 
-            //$dirnames = array();
-            //$locationdir = array();
-            //$links = array();
-
-
+            $dirFiles = array();
+            $codeFiles = array();
 
             while(($entry = readdir($dh)) !== false){
               if($entry != "." && $entry != ".."){
                 $existe = 1;
                 $id_link++;
 
-                // Si dossier
-                if(is_dir($internal->location."/".$entry)){
-                  //$dirnames[] = $entry;
-                  //$locationdir[] = $internal->location."/".$entry;
-                  //$links[] = $id_link;
+                $files[] = $entry;
+                $location[] = $internal->location."/".$entry;
+                $downloadUrl[] = 'download.php?id='.$internal->id.'&type='.$type.'&file='.$id_link;
+                $transfertUrl[] = 'transfert.php?id='.$internal->id.'&type='.$type.'&file='.$id_link;
+                $links[] = $id_link;
+
+              }
+            }
+
+            if(!empty($files)){
+              array_multisort($files, SORT_ASC, $location, $downloadUrl, $transfertUrl);
+
+              for($i = 0; $i < count($files); $i++){
+
+                if(is_dir($internal->location."/".$files[$i])){
 
                   echo '<tr>
-                        <td>'.$entry.'</td>
-                        <td></td>
+                        <td>'.$files[$i].'</td>
+                        <td>-</td>
                         <td>
-                          <button class="btn btn-primary" data-toggle="collapse" data-target="#'.$id_link.'"><span class="glyphicon glyphicon-globe"></span> Explorer</button>
-                          <div id="'.$id_link.'" class="collapse">
+                          <button class="btn btn-primary" data-toggle="collapse" data-target="#'.$links[$i].'"><span class="glyphicon glyphicon-globe"></span> Explorer</button>
+                          <div id="'.$links[$i].'" class="collapse">
                           <table class="table table-striped table-hover">
                           <thead>
                             <tr>
@@ -119,21 +128,26 @@
                             </tr>
                           </thead>
                           <tbody>';
-                  if($dh_dir = opendir($internal->location."/".$entry)){
+
+                  if($dh_dir = opendir($internal->location."/".$files[$i])){
                     while(($file = readdir($dh_dir)) !== false){
                       if($file != "." && $file != ".."){
-                        if(!is_dir($internal->location."/".$entry."/".$file)){
+                        if(!is_dir($internal->location."/".$files[$i]."/".$file)){
                           $id_file++;
                           $trans = array("+" => "@");
-                          $the_entry = strtr($entry, $trans);
-                          echo '<tr>
-                                  <td>'.$file.'</td>
-                                  <td>'.fileSizeConvert(filesize($internal->location."/".$entry."/".$file)).'</td>
-                                  <td>
-                                    <a href="download.php?id='.$internal->id.'&type='.$type.'&dir='.$the_entry.'&file='.$id_file.'" class="btn btn-success"><span class="glyphicon glyphicon-save"></span> Télécharger le fichier</a>
-                                    <a href="transfert.php?id='.$internal->id.'&type='.$type.'&dir='.$the_entry.'&file='.$id_file.'" class="btn btn-info"><span class="glyphicon glyphicon-share-alt"></span> Transférer le fichier</a>
-                                  </td>
-                                </tr>';
+                          $the_entry = strtr($files[$i], $trans);
+
+                          $dirFiles[] = $file;
+                          $codeFiles[] = '<tr>
+                                            <td>'.$file.'</td>
+                                            <td>'.fileSizeConvert(filesize($internal->location."/".$files[$i]."/".$file)).'</td>
+                                            <td>
+                                              <a href="download.php?id='.$internal->id.'&type='.$type.'&dir='.$the_entry.'&file='.$id_file.'" class="btn btn-success"><span class="glyphicon glyphicon-save"></span> Télécharger le fichier</a>
+                                              <a href="transfert.php?id='.$internal->id.'&type='.$type.'&dir='.$the_entry.'&file='.$id_file.'" class="btn btn-info"><span class="glyphicon glyphicon-share-alt"></span> Transférer le fichier</a>
+                                            </td>
+                                          </tr>';
+                        }else{
+                          $id_file++;
                         }
                       }
                     }
@@ -141,46 +155,34 @@
                   }
                   $id_file = 0;
 
+                  array_multisort($dirFiles, SORT_ASC, $codeFiles);
+
+                  for($o = 0; $o < count($dirFiles); $o++){
+                    echo $codeFiles[$o];
+                  }
+                  $dirFiles = array();
+                  $codeFiles = array();
+
                   echo '</tbody>
                       </table>
                      </div>
                     </tr>';
 
-
-                // Si fichier
                 }else{
-
-                  $files[] = $entry;
-                  $location[] = $internal->location."/".$entry;
-                  $downloadUrl[] = 'download.php?id='.$internal->id.'&type='.$type.'&file='.$id_link;
-                  $transfertUrl[] = 'transfert.php?id='.$internal->id.'&type='.$type.'&file='.$id_link;
-                  /*
                   echo '<tr>
-                          <td>'.$entry.'</td>
-                          <td>'.fileSizeConvert(filesize($internal->location."/".$entry)).'</td>
+                          <td>'.$files[$i].'</td>
+                          <td>'.fileSizeConvert(filesize($location[$i])).'</td>
                           <td>
-                            <a href="download.php?id='.$internal->id.'&type='.$type.'&file='.$id_link.'" class="btn btn-success"><span class="glyphicon glyphicon-save"></span> Télécharger le fichier</a>
-                            <a href="transfert.php?id='.$internal->id.'&type='.$type.'&file='.$id_link.'" class="btn btn-info"><span class="glyphicon glyphicon-share-alt"></span> Transférer le fichier</a>
+                            <a href="'.$downloadUrl[$i].'" class="btn btn-success"><span class="glyphicon glyphicon-save"></span> Télécharger le fichier</a>
+                            <a href="'.$transfertUrl[$i].'" class="btn btn-info"><span class="glyphicon glyphicon-share-alt"></span> Transférer le fichier</a>
                           </td>
                         </tr>';
-                  */
-                }// Fin si fichier
+                }
+              }
+            }
 
-              }
-            }
-            if(!empty($files)){
-              array_multisort($files, SORT_ASC, $location, $downloadUrl, $transfertUrl);
-              for($i = 0; $i < count($files); $i++){
-                echo '<tr>
-                        <td>'.$files[$i].'</td>
-                        <td>'.fileSizeConvert(filesize($location[$i])).'</td>
-                        <td>
-                          <a href="'.$downloadUrl[$i].'" class="btn btn-success"><span class="glyphicon glyphicon-save"></span> Télécharger le fichier</a>
-                          <a href="'.$transfertUrl[$i].'" class="btn btn-info"><span class="glyphicon glyphicon-share-alt"></span> Transférer le fichier</a>
-                        </td>
-                      </tr>';
-              }
-            }
+
+
             if($existe == 0){
               echo '<tr class="text-center">
                       <td colspan="2">Aucun fichier/dossier</td>
