@@ -1,5 +1,4 @@
 <?php
-ini_set('display_errors', 1);
   $page = "index";
   require_once 'inc/header.php';
   $rank = check_rank($_SESSION['auth']->id_rank);
